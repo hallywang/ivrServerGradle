@@ -43,8 +43,8 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         logger.info("port is {}", port);
         logger.info("host ip is {}", ip);
         logger.info("body is {}", pBody);
-        logger.info("±»½Ğis {}", paHeadVO.getCalledNUMBER());
-        logger.info("Ö÷½Ğis {}", paHeadVO.getCallingNUMBER());
+        logger.info("è¢«å«is {}", paHeadVO.getCalledNUMBER());
+        logger.info("ä¸»å«is {}", paHeadVO.getCallingNUMBER());
         logger.info("opcode is {}", paHeadVO.getOpCode());
         paHeadVO.setSubCommand("02");
         packetInfoVO.setPacketBody(responseBody(pBody));
@@ -66,13 +66,13 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         String area = fileds[3];
 
         StringBuilder responseBody = new StringBuilder();
-        String flag = "0"; // 0£­ÔÊĞí½ÓÈë£ººÏ·¨ÓÃ»§ 1£­ÔÊĞí½ÓÈë£ºÏŞ¶¨²¦´òÊ±³¤ ÆäËû£ºÏŞÖÆ½ÓÈë
+        String flag = "0"; // 0ï¼å…è®¸æ¥å…¥ï¼šåˆæ³•ç”¨æˆ· 1ï¼å…è®¸æ¥å…¥ï¼šé™å®šæ‹¨æ‰“æ—¶é•¿ å…¶ä»–ï¼šé™åˆ¶æ¥å…¥
 
-        String blockTip = "blocktip"; //ÌáÊ¾Óï
-        Integer limitSecond = 0; //ÏŞ¶¨Ê±³¤
-        String sms = "";//¹Ò»ú¶ÌĞÅ£¬¡°sms¡±±íÊ¾ĞèÒª·¢ËÍ¹Ò»ú¶ÌĞÅ ÆäËû±íÊ¾²»·¢ËÍ¹Ò¶Ì
-        String smsTemplateId = "";  //¹Ò»ú¶ÌĞÅ-Ä£°åºÅ
-        String smsContentId = ""; //¹Ò»ú¶ÌĞÅ-ÄÚÈİID
+        String blockTip = "blocktip"; //æç¤ºè¯­
+        Integer limitSecond = 0; //é™å®šæ—¶é•¿
+        String sms = "";//æŒ‚æœºçŸ­ä¿¡ï¼Œâ€œsmsâ€è¡¨ç¤ºéœ€è¦å‘é€æŒ‚æœºçŸ­ä¿¡ å…¶ä»–è¡¨ç¤ºä¸å‘é€æŒ‚çŸ­
+        String smsTemplateId = "";  //æŒ‚æœºçŸ­ä¿¡-æ¨¡æ¿å·
+        String smsContentId = ""; //æŒ‚æœºçŸ­ä¿¡-å†…å®¹ID
         logger.info("userMobile:{}", userMobile);
 
         List list = ivrBlackUserService.getByMobile(userMobile);
@@ -82,25 +82,25 @@ public class CheckUserVsppServiceImpl implements IVsppService {
             logger.info("list size ===== {}", list.size());
         }
 
-        responseBody.append(flag).append(split);      //×Ö¶Î1
-        responseBody.append(blockTip).append(split);   //×Ö¶Î2
-        responseBody.append(limitSecond).append(split); //×Ö¶Î3
-        responseBody.append(sms).append(split); //×Ö¶Î4
-        responseBody.append(smsTemplateId).append(split); //×Ö¶Î5
-        responseBody.append(smsContentId).append(split); //×Ö¶Î6
+        responseBody.append(flag).append(split);      //å­—æ®µ1
+        responseBody.append(blockTip).append(split);   //å­—æ®µ2
+        responseBody.append(limitSecond).append(split); //å­—æ®µ3
+        responseBody.append(sms).append(split); //å­—æ®µ4
+        responseBody.append(smsTemplateId).append(split); //å­—æ®µ5
+        responseBody.append(smsContentId).append(split); //å­—æ®µ6
 
-        //Æ½Ì¨Ô¤Áô
-        responseBody.append("").append(split);  //×Ö¶Î7
-        responseBody.append("").append(split); //×Ö¶Î8
-        responseBody.append("").append(split);  //×Ö¶Î9
-        responseBody.append("").append(split);  //×Ö¶Î10
+        //å¹³å°é¢„ç•™
+        responseBody.append("").append(split);  //å­—æ®µ7
+        responseBody.append("").append(split); //å­—æ®µ8
+        responseBody.append("").append(split);  //å­—æ®µ9
+        responseBody.append("").append(split);  //å­—æ®µ10
 
-        //sp×Ô¶¨Òå
-        responseBody.append("").append(split); //×Ö¶Î11
-        responseBody.append("").append(split); //×Ö¶Î12
-        responseBody.append("").append(split);  //×Ö¶Î13
-        responseBody.append("").append(split);  //×Ö¶Î14
-        responseBody.append(new Date());              //×Ö¶Î15 todo
+        //spè‡ªå®šä¹‰
+        responseBody.append("").append(split); //å­—æ®µ11
+        responseBody.append("").append(split); //å­—æ®µ12
+        responseBody.append("").append(split);  //å­—æ®µ13
+        responseBody.append("").append(split);  //å­—æ®µ14
+        responseBody.append(new Date());              //å­—æ®µ15 todo
 
 
         return responseBody.toString();

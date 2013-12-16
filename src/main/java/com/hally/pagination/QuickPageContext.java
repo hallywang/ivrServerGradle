@@ -3,14 +3,14 @@ package com.hally.pagination;
 import java.util.List;
 
 /**
- * ¶¯Ì¬·ÖÒ³ÊµÏÖ.Ã¿´Î²éÑ¯·µ»ØÒ»Ò³¼ÇÂ¼µÄÇé¿öÏÂÊ¹ÓÃ.
+ * åŠ¨æ€åˆ†é¡µå®ç°.æ¯æ¬¡æŸ¥è¯¢è¿”å›ä¸€é¡µè®°å½•çš„æƒ…å†µä¸‹ä½¿ç”¨.
  *
  * @version 1.0, 2010-4-22
  */
 public class QuickPageContext<E> implements IPageContext<E>{
     private List<E> items;
-    private int totalCount;//×Ü¼ÇÂ¼Êı
-    private int pageSize;  //Ã¿Ò³ÏÔÊ¾¼ÇÂ¼Êı
+    private int totalCount;//æ€»è®°å½•æ•°
+    private int pageSize;  //æ¯é¡µæ˜¾ç¤ºè®°å½•æ•°
     
     /**
      * 
@@ -38,7 +38,7 @@ public class QuickPageContext<E> implements IPageContext<E>{
     }
 
     /**
-     * ¼ÆËã×ÜÒ³Êı.
+     * è®¡ç®—æ€»é¡µæ•°.
      * 
      * @return
      */

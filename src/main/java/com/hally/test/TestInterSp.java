@@ -62,15 +62,15 @@ public class TestInterSp {
 
                 logger.debug("port is "+cliVO.getNPort());
                 logger.debug("body is " + pBody);
-                logger.debug("±»½Ğis " + paHeadVO.getCalledNUMBER());
-                logger.debug("Ö÷½Ğis" + paHeadVO.getCallingNUMBER());
+                logger.debug("è¢«å«is " + paHeadVO.getCalledNUMBER());
+                logger.debug("ä¸»å«is" + paHeadVO.getCallingNUMBER());
 
 
                 logger.debug("opcode is " + paHeadVO.getOpCode());
                 paHeadVO.setSubCommand("02");
                 /*Random rand = new Random();
                 pBody = String.valueOf(Math.abs(rand.nextInt(10000)));*/
-                paInfoVO.setPacketBody("ÖĞÎÄÄØ²âÊÔ^^hally^^test^^test33");
+                paInfoVO.setPacketBody("ä¸­æ–‡å‘¢æµ‹è¯•^^hally^^test^^test33");
                 paInfoVO.setPaHeadVO(paHeadVO);
                 tcpServer.vsppSendMessage(cliVO, paInfoVO);
             }

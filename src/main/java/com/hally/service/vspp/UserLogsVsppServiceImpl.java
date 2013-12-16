@@ -43,32 +43,32 @@ public class UserLogsVsppServiceImpl implements IVsppService {
         String pBody = packetInfoVO.getPacketBody();
 
 
-        logger.info("¿ªÊ¼¼ÇÂ¼ÓÃ»§ÈÕÖ¾£º");
+        logger.info("å¼€å§‹è®°å½•ç”¨æˆ·æ—¥å¿—ï¼š");
         logger.info("port is {}", port);
         logger.info("host ip is {}", ip);
         logger.info("body is {}", pBody);
-        logger.info("±»½Ğis {}", paHeadVO.getCalledNUMBER());
-        logger.info("Ö÷½Ğis {}", paHeadVO.getCallingNUMBER());
+        logger.info("è¢«å«is {}", paHeadVO.getCalledNUMBER());
+        logger.info("ä¸»å«is {}", paHeadVO.getCallingNUMBER());
         logger.info("opcode is {}", paHeadVO.getOpCode());
         logger.info("getPacketHeadString:{}", paHeadVO.getPacketHeadString(pBody));
         paHeadVO.setSubCommand("02");
 
         String errNo = saveLogs(packetInfoVO);
         paHeadVO.setErrno(errNo);
-        /*errorno = 00000£¬³É¹¦
-                errorno = 00002£¬Ê§°Ü*/
+        /*errorno = 00000ï¼ŒæˆåŠŸ
+                errorno = 00002ï¼Œå¤±è´¥*/
 
         packetInfoVO.setPacketBody("");
         packetInfoVO.setPaHeadVO(paHeadVO);
 
-        logger.info("¼ÇÂ¼ÓÃ»§ÈÕÖ¾½áÊø");
+        logger.info("è®°å½•ç”¨æˆ·æ—¥å¿—ç»“æŸ");
 
 
         return packetInfoVO;
     }
 
     /**
-     * errorno = 00000£¬³É¹¦ errorno = 00002£¬Ê§°Ü
+     * errorno = 00000ï¼ŒæˆåŠŸ errorno = 00002ï¼Œå¤±è´¥
      *
      * @param packetInfoVO
      * @return
@@ -90,7 +90,7 @@ public class UserLogsVsppServiceImpl implements IVsppService {
             eTime = TimeUtil.parseDateByString(endTime, "yyyy-MM-dd HH:mm:ss");
             callSecond = TimeUtil.getSecondDis(sTime, eTime);
         } catch (ParseException e) {
-            logger.error("Ê±¼ä¸ñÊ½´íÎó,startTime:{},endTime:{},ex:{}", startTime, endTime, e);
+            logger.error("æ—¶é—´æ ¼å¼é”™è¯¯,startTime:{},endTime:{},ex:{}", startTime, endTime, e);
             eTime = new Date();
             sTime = eTime;
         }
@@ -106,6 +106,6 @@ public class UserLogsVsppServiceImpl implements IVsppService {
         userLogsService.save(ivrUserLogs);
 
 
-        return "00000"; //todo  ĞèÒªĞŞ¸Ä
+        return "00000"; //todo  éœ€è¦ä¿®æ”¹
     }
 }

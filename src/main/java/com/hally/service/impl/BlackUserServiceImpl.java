@@ -21,7 +21,7 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
         implements IBlackUserService {
 
     /**
-     * ×¢ÈëDAO
+     * æ³¨å…¥DAO
      */
 
     private IvrBlackUserDao ivrBlackUserDao;

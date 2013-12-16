@@ -32,7 +32,7 @@ public class IvrUserLogs implements Serializable {
     private Date endTime;
 
     @Column(name = "call_second")
-    private Long callSecond;//持续了多少秒
+    private Long callSecond;//鎸佺画浜嗗灏戠
 
     @Column(name = "create_time")
     private Date createTime;

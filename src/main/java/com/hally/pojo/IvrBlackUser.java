@@ -23,12 +23,12 @@ public class IvrBlackUser implements Serializable {
     private Long id ;
 
     @Column(name="user_type")
-    private Integer userType; //ÀàĞÍ
+    private Integer userType; //ç±»å‹
 
     private String  msisdn;
-    private Integer scope; //0 È«¾Ö£»1 ²úÆ·1,2 ²úÆ·2£¬À©Õ¹¡£¡£¡£
-    private String  comment; //±¸×¢
-    private Integer status; // 0  ÎŞĞ§£¬1 ÓĞĞ§
+    private Integer scope; //0 å…¨å±€ï¼›1 äº§å“1,2 äº§å“2ï¼Œæ‰©å±•ã€‚ã€‚ã€‚
+    private String  comment; //å¤‡æ³¨
+    private Integer status; // 0  æ— æ•ˆï¼Œ1 æœ‰æ•ˆ
 
     @Column(name="create_time")
     private Date  createTime;

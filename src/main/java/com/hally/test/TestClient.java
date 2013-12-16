@@ -95,7 +95,7 @@ public class TestClient {
             try {
                 paInfoVO = spClient.vsppReceiveMessage();
 
-                logger.info("result ½á¹û is {}", paInfoVO.getPacketBody());
+                logger.info("result ç»“æžœ is {}", paInfoVO.getPacketBody());
 
                 // PacketInfoVO paVO = new PacketInfoVO();
                 String bodyStr = "13675180163|125901234|"+new Date()+"|025||||||";

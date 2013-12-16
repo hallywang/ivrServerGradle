@@ -107,10 +107,10 @@ public class TestClient2 {
             try {
                 paInfoVO = spClient.vsppReceiveMessage();
 
-                logger.info("result 结果 is {}", paInfoVO.getPacketBody());
+                logger.info("result 缁撴灉 is {}", paInfoVO.getPacketBody());
 
                 // PacketInfoVO paVO = new PacketInfoVO();
-                String bodyStr = "13675180163|测试中文哦|2013-12-12 13:10:10|2013-12-12 14:10:10";
+                String bodyStr = "13675180163|娴嬭瘯涓枃鍝2013-12-12 13:10:10|2013-12-12 14:10:10";
             /*for(int i=0;i<14000;i++)
                 bodyStr=bodyStr+"9";*/
                 paVO.setPacketBody(bodyStr);

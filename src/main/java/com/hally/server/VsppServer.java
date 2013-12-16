@@ -50,7 +50,7 @@ public class VsppServer {
                 try {
                     paInfoVO = vsppService.response(paInfoVO);
                 } catch (Exception e) {
-                    logger.error("本次请求有误{}", e);
+                    logger.error("鏈璇锋眰鏈夎{}", e);
 
                 }
 
@@ -58,7 +58,7 @@ public class VsppServer {
                 tcpServer.vsppSendMessage(paInfoVO.getClientVO(), paInfoVO);
             }
         } catch (Exception e) {
-            logger.error("致命错误：{}", e);
+            logger.error("鑷村懡閿欒锛歿}", e);
         }
 
     }
