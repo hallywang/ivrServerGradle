@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+//apply plugin: 'executable-jar'
+
+sourceCompatibility = 1.6
+version = '1.0'
+
+springVersion = "3.2.5.RELEASE"
+
+repositories {
+ // mavenCentral()
+  maven {
+    url "http://maven.oschina.net/content/groups/public/"
+  }
+
+  flatDir {
+    dirs 'lib'
+  }
+}
+
+
+buildscript {
+
+}
+
+
+task copyJars(type: Copy) {
+  from configurations.runtime
+  into 'lib' // 目标位置
+}
+
+
+
+dependencies {
+  testCompile group: 'junit', name: 'junit', version: '4.11'
+
+  compile "org.springframework:spring-core:$springVersion"
+  compile "org.springframework:spring-context:$springVersion"
+  compile "org.springframework:spring-aop:$springVersion"
+  compile "org.springframework:spring-orm:$springVersion"
+  compile "org.aspectj:aspectjweaver:1.6.11"
+  compile "commons-lang:commons-lang:2.6"
+  compile "commons-collections:commons-collections:3.2.1"
+  compile "commons-codec:commons-codec:1.5"
+  compile "commons-beanutils:commons-beanutils:1.8.3"
+  compile "commons-beanutils:commons-beanutils-bean-collections:1.8.3"
+  // compile "commons-dbcp:commons-dbcp:1.4"
+  compile "mysql:mysql-connector-java:5.1.10"
+  compile "commons-io:commons-io:1.4"
+  compile "org.hibernate:hibernate-core:4.2.7.Final"
+  compile "c3p0:c3p0:0.9.1.2"
+  //compile files('lib/linux_vspp4.4_common.jar')
+  compile fileTree(dir: 'lib', include: '*.jar')
+  // compile ""
+  compile "org.slf4j:slf4j-log4j12:1.7.2"
+
+
+}
