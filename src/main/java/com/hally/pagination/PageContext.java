@@ -5,13 +5,13 @@ import java.util.List;
 
 
 /**
- * ²éÑ¯·µ»ØËùÓĞ¼ÇÂ¼µÄ·ÖÒ³ÊµÏÖ.
+ * æŸ¥è¯¢è¿”å›æ‰€æœ‰è®°å½•çš„åˆ†é¡µå®ç°.
  * 
  * @version 1.0, 2010-4-3
  */
 public class PageContext<E> implements IPageContext<E>{
 
-    private int pageSize;//Ã¿Ò³°üº¬µÄ¼ÇÂ¼Êı
+    private int pageSize;//æ¯é¡µåŒ…å«çš„è®°å½•æ•°
     private List<E> items;
     
     public PageContext(List<E> items) {
@@ -53,7 +53,7 @@ public class PageContext<E> implements IPageContext<E>{
     }
 
     /**
-     * ¼ÆËã×ÜÒ³Êı.
+     * è®¡ç®—æ€»é¡µæ•°.
      * 
      * @return
      */

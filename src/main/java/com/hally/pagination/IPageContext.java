@@ -4,17 +4,17 @@ package com.hally.pagination;
 import com.hally.common.Constants;
 
 /**
- * ·ÖÒ³ÉÏÏÂÎÄ»·¾³¡£ÓÃÓÚ¼ÆËãPage¡£
+ * åˆ†é¡µä¸Šä¸‹æ–‡ç¯å¢ƒã€‚ç”¨äºè®¡ç®—Pageã€‚
  */
 public interface IPageContext<E> {
 
     /**
-     * Ä¬ÈÏÉè¶¨Ã¿Ò³ÏÔÊ¾¼ÇÂ¼ÊıÎª10
+     * é»˜è®¤è®¾å®šæ¯é¡µæ˜¾ç¤ºè®°å½•æ•°ä¸º10
      */
     public static final int DEFAULT_PAGE_SIZE = Constants.DEFAULT_PAGE_SIZE;
 
     /**
-     * ¼ÆËã×ÜÒ³Êı.
+     * è®¡ç®—æ€»é¡µæ•°.
      *
      * @return
      */
@@ -22,7 +22,7 @@ public interface IPageContext<E> {
 
 
     /**
-     * ·µ»Ø Page ¶ÔÏó.
+     * è¿”å› Page å¯¹è±¡.
      *
      * @param index
      * @return
@@ -30,14 +30,14 @@ public interface IPageContext<E> {
     public Page<E> getPage(int index);
 
     /**
-     * Ã¿Ò³ÏÔÊ¾µÄ¼ÇÂ¼ÊıÁ¿
+     * æ¯é¡µæ˜¾ç¤ºçš„è®°å½•æ•°é‡
      *
      * @return
      */
     public int getPageSize();
 
     /**
-     * ¼ÆËã×Ü¼ÇÂ¼Êı
+     * è®¡ç®—æ€»è®°å½•æ•°
      *
      * @return
      */

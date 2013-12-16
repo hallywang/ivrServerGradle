@@ -57,7 +57,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     private SessionFactory sessionFactory;
 
     public Session getSession() {
-        //ÊÂÎñ±ØÐëÊÇ¿ªÆôµÄ(Required)£¬·ñÔò»ñÈ¡²»µ½
+        //äº‹åŠ¡å¿…é¡»æ˜¯å¼€å¯çš„(Required)ï¼Œå¦åˆ™èŽ·å–ä¸åˆ°
         return sessionFactory.getCurrentSession();
     }
 
@@ -128,7 +128,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
         if (pk == null) {
             return list(HQL_LIST_ALL, pn, pageSize);
         }
-        //µ¹Ðò£¬ÖØÅÅ
+        //å€’åºï¼Œé‡æŽ’
         List<M> result = list(HQL_OPTIMIZE_PRE_LIST_ALL, 1, pageSize, pk);
         Collections.reverse(result);
         return result;
@@ -211,7 +211,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
 
 
     /**
-     * ¸ù¾Ý²éÑ¯Ìõ¼þ·µ»ØÎ¨Ò»Ò»Ìõ¼ÇÂ¼
+     * æ ¹æ®æŸ¥è¯¢æ¡ä»¶è¿”å›žå”¯ä¸€ä¸€æ¡è®°å½•
      */
     @SuppressWarnings("unchecked")
     protected <T> T unique(final String hql, final Object... paramlist) {
@@ -247,7 +247,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
 
 
     /**
-     * Ö´ÐÐÅú´¦ÀíÓï¾ä.Èç Ö®¼äinsert, update, delete µÈ.
+     * æ‰§è¡Œæ‰¹å¤„ç†è¯­å¥.å¦‚ ä¹‹é—´insert, update, delete ç­‰.
      */
     protected int execteBulk(final String hql, final Object... paramlist) {
         Query query = getSession().createQuery(hql);
@@ -348,7 +348,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
         if (paramlist != null) {
             for (int i = 0; i < paramlist.length; i++) {
                 if (paramlist[i] instanceof Date) {
-                    //TODO ÄÑµÀÕâÊÇbug Ê¹ÓÃsetParameter²»ÐÐ£¿£¿
+                    //TODO éš¾é“è¿™æ˜¯bug ä½¿ç”¨setParameterä¸è¡Œï¼Ÿï¼Ÿ
                     query.setTimestamp(i, (Date) paramlist[i]);
                 } else {
                     query.setParameter(i, paramlist[i]);

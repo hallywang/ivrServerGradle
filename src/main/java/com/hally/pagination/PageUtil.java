@@ -20,12 +20,12 @@ public class PageUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PageUtil.class);
     /**
-     * »ñÈ¡Ö÷¼üÊ±»º´æ
+     * è·å–ä¸»é”®æ—¶ç¼“å­˜
      */
     private static Map<Class<?>, Field> classPKMap = new WeakHashMap<Class<?>, Field>();
     
     /**
-     * ²»¹ØĞÄ×Ü¼ÇÂ¼Êı
+     * ä¸å…³å¿ƒæ€»è®°å½•æ•°
      * @param pageNumber
      * @param pageSize
      * @return
@@ -35,10 +35,10 @@ public class PageUtil {
     }
     
     /**
-     * ¼ÆËã·ÖÒ³»ñÈ¡Êı¾İÊ±ÓÎ±êµÄÆğÊ¼Î»ÖÃ
+     * è®¡ç®—åˆ†é¡µè·å–æ•°æ®æ—¶æ¸¸æ ‡çš„èµ·å§‹ä½ç½®
      * 
-     * @param totalCount ËùÓĞ¼ÇÂ¼×ÜºÍ
-     * @param pageNumber Ò³Âë,´Ó1¿ªÊ¼
+     * @param totalCount æ‰€æœ‰è®°å½•æ€»å’Œ
+     * @param pageNumber é¡µç ,ä»1å¼€å§‹
      * @return
      */
     public static int getPageStart(int totalCount, int pageNumber, int pageSize) {
@@ -51,10 +51,10 @@ public class PageUtil {
     }
 
     /**
-     * ¹¹Ôì·ÖÒ³¶ÔÏó
+     * æ„é€ åˆ†é¡µå¯¹è±¡
      * 
-     * @param totalCount Âú×ãÌõ¼şµÄËùÓĞ¼ÇÂ¼×ÜºÍ
-     * @param pageNumber ±¾´Î·ÖÒ³µÄÒ³Âë
+     * @param totalCount æ»¡è¶³æ¡ä»¶çš„æ‰€æœ‰è®°å½•æ€»å’Œ
+     * @param pageNumber æœ¬æ¬¡åˆ†é¡µçš„é¡µç 
      * @param items
      * @return
      */

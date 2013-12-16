@@ -5,7 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.*;
 
 /**
- * viavame All Rights Reserved@2008-2009 ×÷Õß: Íõº£Àû ÈÕÆÚ: 2008-12-16 Ê±¼ä: 10:11:27 ËµÃ÷: ¸ÃÀàÊµÏÖ¡£¡£¡£¡£ ĞŞ¸ÄÈË:Íõº£Àû ĞŞ¸ÄÊ±¼ä: 2008-12-16
+ * viavame All Rights Reserved@2008-2009 ä½œè€…: ç‹æµ·åˆ© æ—¥æœŸ: 2008-12-16 æ—¶é—´: 10:11:27 è¯´æ˜: è¯¥ç±»å®ç°ã€‚ã€‚ã€‚ã€‚ ä¿®æ”¹äºº:ç‹æµ·åˆ© ä¿®æ”¹æ—¶é—´: 2008-12-16
  * 10:11:27
  */
 public class StringUtil {
@@ -72,7 +72,7 @@ public class StringUtil {
     }
 
     /**
-     * µÃµ½ÎÄ¼şÇ°×º£¬²»°üº¬À©Õ¹Ãû
+     * å¾—åˆ°æ–‡ä»¶å‰ç¼€ï¼Œä¸åŒ…å«æ‰©å±•å
      *
      * @param fileName
      * @return
@@ -84,7 +84,7 @@ public class StringUtil {
     }
 
     /**
-     * µÃµ½ÎÄ¼şºó×º
+     * å¾—åˆ°æ–‡ä»¶åç¼€
      *
      * @param fileName
      * @return
@@ -96,7 +96,7 @@ public class StringUtil {
     }
 
     /**
-     * µÃµ½ÎÄ¼şµÄ¼òµ¥Ãû³Æ£¬Èç e:/a.txt µÃµ½a.txt
+     * å¾—åˆ°æ–‡ä»¶çš„ç®€å•åç§°ï¼Œå¦‚ e:/a.txt å¾—åˆ°a.txt
      *
      * @param fileName
      * @return
@@ -108,7 +108,7 @@ public class StringUtil {
     }
 
     /**
-     * µÃµ½ÎÄ¼şµ¥¶ÀµÄÇ°×º£¬²»´øÂ·¾¶
+     * å¾—åˆ°æ–‡ä»¶å•ç‹¬çš„å‰ç¼€ï¼Œä¸å¸¦è·¯å¾„
      *
      * @param fileName
      * @return
@@ -162,9 +162,9 @@ public class StringUtil {
     }
 
     /**
-     * ×Ö·û´®×ª»»³ÉÊ®Áù½øÖÆÖµ
+     * å­—ç¬¦ä¸²è½¬æ¢æˆåå…­è¿›åˆ¶å€¼
      *
-     * @param bin String ÎÒÃÇ¿´µ½µÄÒª×ª»»³ÉÊ®Áù½øÖÆµÄ×Ö·û´®
+     * @param bin String æˆ‘ä»¬çœ‹åˆ°çš„è¦è½¬æ¢æˆåå…­è¿›åˆ¶çš„å­—ç¬¦ä¸²
      * @return
      */
     public static String bin2hex(String bin) {
@@ -182,10 +182,10 @@ public class StringUtil {
     }
 
     /**
-     * Ê®Áù½øÖÆ×ª»»×Ö·û´®
+     * åå…­è¿›åˆ¶è½¬æ¢å­—ç¬¦ä¸²
      *
-     * @param hex String Ê®Áù½øÖÆ
-     * @return String ×ª»»ºóµÄ×Ö·û´®
+     * @param hex String åå…­è¿›åˆ¶
+     * @return String è½¬æ¢åçš„å­—ç¬¦ä¸²
      */
     public static String hex2bin(String hex) {
         String digital = "0123456789ABCDEF";
@@ -229,11 +229,11 @@ public class StringUtil {
 
 
     /**
-     * ½«Êı×Önum²¹³äÎªÖ¸¶¨³¤¶ÈlengthµÄ×Ö·û£¬Èç 1 ²¹Îª001 »ò01 µÈ
+     * å°†æ•°å­—numè¡¥å……ä¸ºæŒ‡å®šé•¿åº¦lengthçš„å­—ç¬¦ï¼Œå¦‚ 1 è¡¥ä¸º001 æˆ–01 ç­‰
      *
-     * @param num    ĞèÒª²¹³äµÄ¡°Êı×Ö¡±
-     * @param length ²¹³ä³¤¶È
-     * @return ²¹³äºóµÄ×Ö·û Èç 02,003µÈ
+     * @param num    éœ€è¦è¡¥å……çš„â€œæ•°å­—â€
+     * @param length è¡¥å……é•¿åº¦
+     * @return è¡¥å……åçš„å­—ç¬¦ å¦‚ 02,003ç­‰
      * @editor:RongWei
      * @editDate:2010-11-02
      */
@@ -255,7 +255,7 @@ public class StringUtil {
 
     public static List<Map.Entry<String, Integer>> orderMap(Map map) {
         List<Map.Entry<String, Integer>> infoIds = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
-//ÅÅĞò
+//æ’åº
         Collections.sort(infoIds, new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> o1,
                                Map.Entry<String, Integer> o2) {
@@ -267,7 +267,7 @@ public class StringUtil {
     }
 
     /**
-     * ÅĞ¶Ï×Ö·û´®ÊÇ·ñÊÇÊı×Ö
+     * åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦æ˜¯æ•°å­—
      *
      * @param str
      * @return

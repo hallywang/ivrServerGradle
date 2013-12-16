@@ -5,15 +5,15 @@ import java.util.List;
 
 
 /**
- * ±íÊ¾·ÖÒ³ÖĞµÄÒ»Ò³¡£
+ * è¡¨ç¤ºåˆ†é¡µä¸­çš„ä¸€é¡µã€‚
  * 
  * @author  Zhang Kaitao
  */
 public class Page<E> {
-    private boolean hasPre;//ÊÇ·ñÊ×Ò³
-    private boolean hasNext;//ÊÇ·ñÎ²Ò³
-    private List<E> items;//µ±Ç°Ò³°üº¬µÄ¼ÇÂ¼ÁĞ±í
-    private int index;//µ±Ç°Ò³Ò³Âë(ÆğÊ¼Îª1)
+    private boolean hasPre;//æ˜¯å¦é¦–é¡µ
+    private boolean hasNext;//æ˜¯å¦å°¾é¡µ
+    private List<E> items;//å½“å‰é¡µåŒ…å«çš„è®°å½•åˆ—è¡¨
+    private int index;//å½“å‰é¡µé¡µç (èµ·å§‹ä¸º1)
     private IPageContext<E> context;
     
     public IPageContext<E> getContext() {

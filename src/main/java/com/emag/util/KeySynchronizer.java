@@ -3,7 +3,7 @@ package com.emag.util;
 import java.util.WeakHashMap;
 
 /**
- * Í¬²½Æ÷
+ * åŒæ­¥å™¨
  *
  */
 public class KeySynchronizer {

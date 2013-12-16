@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ËøÎÄ¼ş¹¤¾ßÀà.
+ * é”æ–‡ä»¶å·¥å…·ç±».
  * <p>
  * Copyright: Copyright (c) Jul 20, 2011 11:18:00 AM
  * <p>
- * Company: ±±¾©»Ã·½ÀÊî£¼¼ÊõÓĞÏŞ¹«Ë¾
+ * Company: åŒ—äº¬å¹»æ–¹æœ—ç¿æŠ€æœ¯æœ‰é™å…¬å¸
  * <p>
  * Author: lihui
  * <p>
@@ -21,27 +21,27 @@ import java.util.Map;
  */
 public class FileLocker {
 
-	/** ±»ËøÎÄ¼ş */
+	/** è¢«é”æ–‡ä»¶ */
 	private static Map<File, FileLock> lockMap = new HashMap<File, FileLock>();
 
 	/**
-	 * ÅĞ¶ÏÎÄ¼şÊÇ·ñ±»Ëø
+	 * åˆ¤æ–­æ–‡ä»¶æ˜¯å¦è¢«é”
 	 * 
 	 * @param file
-	 * @return true:±»Ëø;false:Ã»ÓĞ±»Ëø
+	 * @return true:è¢«é”;false:æ²¡æœ‰è¢«é”
 	 */
 	public static synchronized boolean isLocked(File file) {
 		File dir = file.getParentFile();
-		// ´´½¨ÎÄ¼şÄ¿Â¼
+		// åˆ›å»ºæ–‡ä»¶ç›®å½•
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 		try {
-			// ´´½¨ÎÄ¼ş
+			// åˆ›å»ºæ–‡ä»¶
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			// ÎÄ¼şÊÇ·ñ¿ÉĞ´
+			// æ–‡ä»¶æ˜¯å¦å¯å†™
 			if (file.canWrite()) {
 				RandomAccessFile randomAccessFile = new RandomAccessFile(file,
 						"rw");
@@ -56,10 +56,10 @@ public class FileLocker {
 	}
 
 	/**
-	 * ÅĞ¶ÏÎÄ¼şÊÇ·ñ±»Ëø
+	 * åˆ¤æ–­æ–‡ä»¶æ˜¯å¦è¢«é”
 	 * 
 	 * @param filename
-	 * @return true:±»Ëø;false:Ã»ÓĞ±»Ëø
+	 * @return true:è¢«é”;false:æ²¡æœ‰è¢«é”
 	 * @throws Exception
 	 */
 	public static synchronized boolean isLocked(String filename)
@@ -68,7 +68,7 @@ public class FileLocker {
 	}
 
 	/**
-	 * ½âËøÎÄ¼ş
+	 * è§£é”æ–‡ä»¶
 	 * 
 	 * @param file
 	 */
@@ -87,7 +87,7 @@ public class FileLocker {
 	}
 
 	/**
-	 * ½âËøÎÄ¼ş
+	 * è§£é”æ–‡ä»¶
 	 * 
 	 * @param filename
 	 */
