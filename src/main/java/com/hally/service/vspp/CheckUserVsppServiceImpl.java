@@ -2,7 +2,6 @@ package com.hally.service.vspp;
 
 import com.emag.config.MyConfigurer;
 import com.hally.service.IBlackUserService;
-import com.hisunsray.vspp.data.ClientVO;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
 import org.apache.commons.lang.StringUtils;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,22 +29,11 @@ public class CheckUserVsppServiceImpl implements IVsppService {
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
 
         PacketHeadVO paHeadVO = packetInfoVO.getPaHeadVO();
-        ClientVO cliVO = packetInfoVO.getClientVO();
 
-        String ip = cliVO.getHostIP();
-        int port = cliVO.getNPort();
-
-        String serviceId = paHeadVO.getServerID(); //todo ? serviceid
-        String operateId = paHeadVO.getOperateID();
         String pBody = packetInfoVO.getPacketBody();
 
-        logger.info("port is {}", port);
-        logger.info("host ip is {}", ip);
-        logger.info("body is {}", pBody);
-        logger.info("被叫is {}", paHeadVO.getCalledNUMBER());
-        logger.info("主叫is {}", paHeadVO.getCallingNUMBER());
-        logger.info("opcode is {}", paHeadVO.getOpCode());
-        paHeadVO.setSubCommand("02");
+        paHeadVO.setSubCommand("02"); //接口规范，必须设置为02
+
         packetInfoVO.setPacketBody(responseBody(pBody));
         packetInfoVO.setPaHeadVO(paHeadVO);
 
@@ -58,7 +45,7 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         String split = (String) MyConfigurer.getContextProperty("split");
 
 
-        String[] fileds = StringUtils.split(body,split);
+        String[] fileds = StringUtils.split(body, split);
 
         String userMobile = fileds[0];
         String callNumber = fileds[1];
@@ -66,20 +53,22 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         String area = fileds[3];
 
         StringBuilder responseBody = new StringBuilder();
-        String flag = "0"; // 0－允许接入：合法用户 1－允许接入：限定拨打时长 其他：限制接入
 
-        String blockTip = "blocktip"; //提示语
+        // 0－允许接入：合法用户 1－允许接入：限定拨打时长 其他：限制接入
+        String flag = "0";
+
+        //提示语 0，1时，置主菜单序号，默认“00” 其他时，置异常提示音：spid_tip_xx.vox
+        String blockTip = "00";
+
         Integer limitSecond = 0; //限定时长
         String sms = "";//挂机短信，“sms”表示需要发送挂机短信 其他表示不发送挂短
         String smsTemplateId = "";  //挂机短信-模板号
         String smsContentId = ""; //挂机短信-内容ID
-        logger.info("userMobile:{}", userMobile);
 
         List list = ivrBlackUserService.getByMobile(userMobile);
 
         if (list != null && list.size() > 0) {
             flag = "9";
-            logger.info("list size ===== {}", list.size());
         }
 
         responseBody.append(flag).append(split);      //字段1
@@ -100,8 +89,9 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         responseBody.append("").append(split); //字段12
         responseBody.append("").append(split);  //字段13
         responseBody.append("").append(split);  //字段14
-        responseBody.append(new Date());              //字段15 todo
+        responseBody.append("");              //字段15
 
+        logger.info("checkUserVsppService responseBody:{}", responseBody);
 
         return responseBody.toString();
 

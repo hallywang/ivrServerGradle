@@ -4,7 +4,6 @@ import com.emag.config.MyConfigurer;
 import com.emag.util.TimeUtil;
 import com.hally.pojo.IvrUserLogs;
 import com.hally.service.IUserLogsService;
-import com.hisunsray.vspp.data.ClientVO;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
 import org.apache.commons.lang.StringUtils;
@@ -32,32 +31,12 @@ public class UserLogsVsppServiceImpl implements IVsppService {
 
     @Override
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
-        PacketHeadVO paHeadVO = packetInfoVO.getPaHeadVO();
-        ClientVO cliVO = packetInfoVO.getClientVO();
-
-        String ip = cliVO.getHostIP();
-        int port = cliVO.getNPort();
-
-        String serviceId = paHeadVO.getServerID(); //todo ? serviceid
-        String operateId = paHeadVO.getOperateID();
-        String pBody = packetInfoVO.getPacketBody();
-
-
-        logger.info("开始记录用户日志：");
-        logger.info("port is {}", port);
-        logger.info("host ip is {}", ip);
-        logger.info("body is {}", pBody);
-        logger.info("被叫is {}", paHeadVO.getCalledNUMBER());
-        logger.info("主叫is {}", paHeadVO.getCallingNUMBER());
-        logger.info("opcode is {}", paHeadVO.getOpCode());
-        logger.info("getPacketHeadString:{}", paHeadVO.getPacketHeadString(pBody));
-        paHeadVO.setSubCommand("02");
-
+         /*errorno = 00000，成功,errorno = 00002，失败*/
         String errNo = saveLogs(packetInfoVO);
-        paHeadVO.setErrno(errNo);
-        /*errorno = 00000，成功
-                errorno = 00002，失败*/
 
+        PacketHeadVO paHeadVO = packetInfoVO.getPaHeadVO();
+        paHeadVO.setSubCommand("02");
+        paHeadVO.setErrno(errNo);
         packetInfoVO.setPacketBody("");
         packetInfoVO.setPaHeadVO(paHeadVO);
 
@@ -70,13 +49,15 @@ public class UserLogsVsppServiceImpl implements IVsppService {
     /**
      * errorno = 00000，成功 errorno = 00002，失败
      *
-     * @param packetInfoVO
-     * @return
+     * @param packetInfoVO  接收到的报文信息
+     * @return errorno error code
      */
     private String saveLogs(PacketInfoVO packetInfoVO) {
         String split = (String) MyConfigurer.getContextProperty("split");
         String body = packetInfoVO.getPacketBody();
         String[] fileds = StringUtils.split(body, split);
+        String errorNo = "00002";
+        boolean todb = true;
 
         String userMobile = fileds[0];
         String callNumber = fileds[1];
@@ -87,25 +68,39 @@ public class UserLogsVsppServiceImpl implements IVsppService {
         long callSecond = 0;
         try {
             sTime = TimeUtil.parseDateByString(startTime, "yyyy-MM-dd HH:mm:ss");
-            eTime = TimeUtil.parseDateByString(endTime, "yyyy-MM-dd HH:mm:ss");
-            callSecond = TimeUtil.getSecondDis(sTime, eTime);
         } catch (ParseException e) {
-            logger.error("时间格式错误,startTime:{},endTime:{},ex:{}", startTime, endTime, e);
-            eTime = new Date();
-            sTime = eTime;
+            logger.error("记录日志失败,startTime时间格式错误,startTime:{},ex:{}", startTime, e);
+            sTime = new Date();
+            todb = false;
         }
 
-        IvrUserLogs ivrUserLogs = new IvrUserLogs();
-        ivrUserLogs.setMsisdn(userMobile);
-        ivrUserLogs.setCallNumber(callNumber);
-        ivrUserLogs.setCallTime(sTime);
-        ivrUserLogs.setEndTime(eTime);
-        ivrUserLogs.setCallSecond(callSecond);
-        ivrUserLogs.setCreateTime(new Date());
+        try {
+            eTime = TimeUtil.parseDateByString(endTime, "yyyy-MM-dd HH:mm:ss");
+            callSecond = TimeUtil.getSecondDis(sTime, eTime);
 
-        userLogsService.save(ivrUserLogs);
+        } catch (ParseException e) {
+            logger.error("记录日志失败,endTime时间格式错误,endTime:{},ex:{}", endTime, e);
+            eTime = new Date();
+            todb = false;
+        }
+
+        if (todb) {
+            try {
+                IvrUserLogs ivrUserLogs = new IvrUserLogs();
+                ivrUserLogs.setMsisdn(userMobile);
+                ivrUserLogs.setCallNumber(callNumber);
+                ivrUserLogs.setCallTime(sTime);
+                ivrUserLogs.setEndTime(eTime);
+                ivrUserLogs.setCallSecond(callSecond);
+                ivrUserLogs.setCreateTime(new Date());
+                userLogsService.save(ivrUserLogs);
+                errorNo = "00000";
+            } catch (Exception e) {
+                logger.error("记录日志失败,入库错误:{}", e);
+            }
+        }
 
 
-        return "00000"; //todo  需要修改
+        return errorNo;
     }
 }
