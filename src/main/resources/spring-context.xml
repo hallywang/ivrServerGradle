@@ -57,7 +57,7 @@
                 <prop key="hibernate.show_sql">${show_sql}</prop>
                 <prop key="hibernate.format_sql">${format_sql}</prop>
                 <prop key="hibernate.use_sql_commants">${use_sql_comments}</prop>
-                <!--<prop key="hibernate.hbm2ddl.auto">${hbm2ddl.auto}</prop>-->
+                <prop key="hibernate.hbm2ddl.auto">${hbm2ddl.auto}</prop>
             </props>
         </property>
     </bean>
@@ -124,6 +124,37 @@
         </constructor-arg>
     </bean>
 
+    <!-- 要调用的工作类 -->
+    <!-- 定义调用对象和调用对象的方法 -->
+    <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="blackUserService"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>initBlackUserToCache</value>
+        </property>
+    </bean>
+    <!-- 定义触发时间 -->
+    <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="jobtask"/>
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>10,20,30,40,50,00 * * * * ?</value>
+        </property>
+    </bean>
+    <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+    <bean id="startQuertz" lazy-init="false" autowire="no"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="doTime"/>
+            </list>
+        </property>
+    </bean>
 
 
 </beans>

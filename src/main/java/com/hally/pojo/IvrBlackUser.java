@@ -1,15 +1,13 @@
 package com.hally.pojo;
-
-
-
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * function description. <p/> <p><h2>Change History</h2> <p/> 13-11-21 | hally | created <p/> </p>
+ * function description.
+ * <p/> <p><h2>Change History</h2>
+ * <p/> 13-11-21 | hally | created
+ * <p/> </p>
  *
  * @author hally
  * @version 1.0.0
@@ -26,7 +24,7 @@ public class IvrBlackUser implements Serializable {
     private Integer userType; //类型
 
     private String  msisdn;
-    private Integer scope; //0 全局；1 产品1,2 产品2，扩展。。。
+    private String scope; //0 全局；1 产品1,2 产品2，扩展。。。
     private String  comment; //备注
     private Integer status; // 0  无效，1 有效
 
@@ -62,11 +60,11 @@ public class IvrBlackUser implements Serializable {
         this.msisdn = msisdn;
     }
 
-    public Integer getScope() {
+    public String getScope() {
         return scope;
     }
 
-    public void setScope(Integer scope) {
+    public void setScope(String scope) {
         this.scope = scope;
     }
 

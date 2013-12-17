@@ -1,6 +1,7 @@
 package com.hally.server;
 
 import com.emag.config.MyConfigurer;
+import com.hally.service.IBlackUserService;
 import com.hally.service.vspp.IVsppService;
 import com.hisunsray.intersp.TCPSpServer;
 import com.hisunsray.vspp.data.ClientVO;
@@ -27,9 +28,13 @@ public class VsppServer {
     @Resource
     private Map vsppServiceFactory;
 
+    @Resource(name="blackUserService")
+    private IBlackUserService blackUserService;
+
 
     public void startServer() {
         logger.info("NOW Begin CommInit");
+        blackUserService.initBlackUserToCache();//加载黑名单缓存
         TCPSpServer tcpServer = new TCPSpServer();
         int nPort = Integer.valueOf(MyConfigurer.getContextProperty("nPort").toString());
         int nKey = Integer.valueOf(MyConfigurer.getContextProperty("nKey").toString());
@@ -61,7 +66,8 @@ public class VsppServer {
                 logger.info("==in==serviceId:{},operateid:{},header is:{},errorNo is:{},body is:{}",
                         serviceId, operateId, pHeader, errorNo,pBody);
 
-                IVsppService vsppService = (IVsppService) vsppServiceFactory.get(clientResquestHeader.getOperateID());
+                //根据操作ID获取接口处理的实现类
+                IVsppService vsppService = (IVsppService) vsppServiceFactory.get(operateId);
 
                 PacketInfoVO responseInfo = new PacketInfoVO(); //返回信息
                 try {

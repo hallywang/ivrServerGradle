@@ -3,6 +3,8 @@ package com.hally.service.vspp;
 import com.emag.config.MyConfigurer;
 import com.hally.cache.EhcacheService;
 import com.hally.cache.ObjectEhCache;
+import com.hally.common.Constants;
+import com.hally.pojo.IvrBlackUser;
 import com.hally.service.IBlackUserService;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
@@ -12,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * function description. <p/> <p><h2>Change History</h2> <p/> 13-12-11 | hally | created <p/> </p>
@@ -23,9 +24,6 @@ import java.util.List;
 @Service("checkUserVsppService")
 public class CheckUserVsppServiceImpl implements IVsppService {
     private static Logger logger = LoggerFactory.getLogger(CheckUserVsppServiceImpl.class);
-
-    @Resource
-    private IBlackUserService ivrBlackUserService;
 
     @Resource
     private EhcacheService ehcacheService;
@@ -39,25 +37,33 @@ public class CheckUserVsppServiceImpl implements IVsppService {
 
         paHeadVO.setSubCommand("02"); //接口规范，必须设置为02
 
-        packetInfoVO.setPacketBody(responseBody(pBody));
+        packetInfoVO.setPacketBody(responseBody(pBody, paHeadVO));
         packetInfoVO.setPaHeadVO(paHeadVO);
 
         return packetInfoVO;
     }
 
-    private String responseBody(String body) {
+    private String responseBody(String body, PacketHeadVO paHeadVO) {
 
         String split = (String) MyConfigurer.getContextProperty("split");
-
+        String serviceId = paHeadVO.getServerID(); //serviceid
 
         String[] fileds = StringUtils.split(body, split);
+        StringBuilder responseBody = new StringBuilder();
+
+        if (fileds == null || fileds.length < 4) {
+            responseBody.append("error request body||||||||||||||");
+             //拼装正确的包体回复，防止对方客户端报错
+            paHeadVO.setErrno("00002");
+            logger.error("error request body:{}",body) ;
+            return responseBody.toString();
+        }
 
         String userMobile = fileds[0];
         String callNumber = fileds[1];
         String startTime = fileds[2];
         String area = fileds[3];
 
-        StringBuilder responseBody = new StringBuilder();
 
         // 0－允许接入：合法用户 1－允许接入：限定拨打时长 其他：限制接入
         String flag = "0";
@@ -70,20 +76,15 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         String smsTemplateId = "";  //挂机短信-模板号
         String smsContentId = ""; //挂机短信-内容ID
 
-        ObjectEhCache cache = ehcacheService.getCache("blackUser");
+        ObjectEhCache cache = ehcacheService.getCache(Constants.CACHE_NAME_BLACK_USER);
 
+        String cacheKey = userMobile + "-" + serviceId; //todo 全局黑名单没生效 ，缓存刷新的问题
 
-        List list = (List) cache.get(userMobile);
-
-        if (list == null) {
-            list = ivrBlackUserService.getByMobile(userMobile);
-            cache.put(userMobile, list);
+        IvrBlackUser blackUser = (IvrBlackUser) cache.get(cacheKey);
+        if (blackUser != null) {
+            logger.info("黑名单用户:{}, serviceId:{}", userMobile, serviceId);
+            flag = "9"; //限制接入
         }
-
-        if (list != null && list.size() > 0) {
-            flag = "9";
-        }
-
         responseBody.append(flag).append(split);      //字段1
         responseBody.append(blockTip).append(split);   //字段2
         responseBody.append(limitSecond).append(split); //字段3

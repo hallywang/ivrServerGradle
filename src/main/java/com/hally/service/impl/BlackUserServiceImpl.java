@@ -1,9 +1,16 @@
 package com.hally.service.impl;
 
+import com.hally.cache.EhcacheService;
+import com.hally.cache.ICacheService;
+import com.hally.cache.IObjectCache;
+import com.hally.cache.ObjectEhCache;
+import com.hally.common.Constants;
 import com.hally.dao.IvrBlackUserDao;
 import com.hally.dao.base.IBaseDao;
 import com.hally.pojo.IvrBlackUser;
 import com.hally.service.IBlackUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,16 +22,21 @@ import java.util.List;
  * @author hally
  * @version 1.0.0
  */
-@Service("ivrBlackUserService")
+@Service("blackUserService")
 
 public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
         implements IBlackUserService {
 
+
+    Logger logger = LoggerFactory.getLogger(BlackUserServiceImpl.class);
     /**
      * 注入DAO
      */
 
     private IvrBlackUserDao ivrBlackUserDao;
+
+    @Resource(name="ehcacheService")
+    private ICacheService cacheService;
 
     @Resource(name = "ivrBlackUserDao")
     public void setBaseDao(IBaseDao<IvrBlackUser, Integer> ivrBlackUserDao) {
@@ -39,6 +51,27 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
 
         return list;
 
+    }
+
+    @Override
+    public void initBlackUserToCache() {
+        IObjectCache cache = cacheService.getCache(Constants.CACHE_NAME_BLACK_USER);
+
+        logger.info("=init= blackUserList to cache begin");
+        long start = System.currentTimeMillis();
+
+        cache.cleanCache();
+
+        List list = ivrBlackUserDao.listAll();
+        String cacheKey;
+        for (Object blackUser1 : list) {
+            IvrBlackUser blackUser = (IvrBlackUser) blackUser1;
+            cacheKey = blackUser.getMsisdn() + "-" + blackUser.getScope();
+            cache.put(cacheKey, blackUser);
+        }
+        long end = System.currentTimeMillis();
+
+        logger.info("=init= blackUserList to cache sucess,cost:{} s", (end - start) / 1000);
     }
 
 

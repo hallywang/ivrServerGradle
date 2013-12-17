@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @version 1.0.0
  */
 @Component
-public class EhcacheService {
+public class EhcacheService implements ICacheService{
 
     public static CacheManager manager = CacheManager.getInstance();
     Cache cache = manager.getCache("blackUser"); //默认

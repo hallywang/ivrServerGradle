@@ -13,5 +13,6 @@ import java.util.List;
 public interface IBlackUserService
         extends IBaseService<IvrBlackUser, Integer> {
     public List<IvrBlackUser> getByMobile(String mobile);
+    public void initBlackUserToCache()  ;
 
 }
