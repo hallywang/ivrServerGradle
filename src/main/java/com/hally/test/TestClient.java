@@ -55,7 +55,7 @@ public class TestClient {
         paHeadVO.setOpCode("0101");
         paHeadVO.setSeqNo("123123");
         paHeadVO.setSpID("1");
-        paHeadVO.setServerID("00016"); //todo serviceid?
+        paHeadVO.setServerID("00016"); //serviceid
         paHeadVO.setOperateID("00001");//////
         paHeadVO.setCallingNUMBER("13675180163");
         paHeadVO.setCalledNUMBER("12590443");

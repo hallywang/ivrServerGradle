@@ -5,7 +5,6 @@ import com.hally.cache.EhcacheService;
 import com.hally.cache.ObjectEhCache;
 import com.hally.common.Constants;
 import com.hally.pojo.IvrBlackUser;
-import com.hally.service.IBlackUserService;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
 import org.apache.commons.lang.StringUtils;
@@ -53,9 +52,9 @@ public class CheckUserVsppServiceImpl implements IVsppService {
 
         if (fileds == null || fileds.length < 4) {
             responseBody.append("error request body||||||||||||||");
-             //拼装正确的包体回复，防止对方客户端报错
+            //拼装正确的包体回复，防止对方客户端报错
             paHeadVO.setErrno("00002");
-            logger.error("error request body:{}",body) ;
+            logger.error("error request body:{}", body);
             return responseBody.toString();
         }
 
@@ -78,12 +77,19 @@ public class CheckUserVsppServiceImpl implements IVsppService {
 
         ObjectEhCache cache = ehcacheService.getCache(Constants.CACHE_NAME_BLACK_USER);
 
-        String cacheKey = userMobile + "-" + serviceId; //todo 全局黑名单没生效 ，缓存刷新的问题
+        String cacheKey = userMobile + "-" + serviceId;  //黑名单号码-业务代码作为key，全局为0
 
         IvrBlackUser blackUser = (IvrBlackUser) cache.get(cacheKey);
         if (blackUser != null) {
             logger.info("黑名单用户:{}, serviceId:{}", userMobile, serviceId);
             flag = "9"; //限制接入
+        } else {
+            cacheKey = userMobile + "-0"; //全局黑名单
+            blackUser = (IvrBlackUser) cache.get(cacheKey);
+            if(blackUser!=null){
+                logger.info("全局黑名单用户:{}, serviceId:{}", userMobile, serviceId);
+                flag = "9"; //限制接入
+            }
         }
         responseBody.append(flag).append(split);      //字段1
         responseBody.append(blockTip).append(split);   //字段2
