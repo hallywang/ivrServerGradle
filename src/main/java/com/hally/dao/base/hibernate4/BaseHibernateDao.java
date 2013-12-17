@@ -1,7 +1,7 @@
 package com.hally.dao.base.hibernate4;
 
 
-import com.emag.util.Assert;
+import com.common.util.Assert;
 import com.hally.dao.base.IBaseDao;
 import com.hally.dao.util.ConditionQuery;
 import com.hally.dao.util.OrderBy;

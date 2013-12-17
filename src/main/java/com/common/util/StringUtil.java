@@ -1,4 +1,4 @@
-package com.emag.util;
+package com.common.util;
 
 import org.apache.commons.lang.StringUtils;
 

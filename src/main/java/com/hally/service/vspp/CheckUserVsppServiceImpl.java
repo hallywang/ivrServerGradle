@@ -1,6 +1,6 @@
 package com.hally.service.vspp;
 
-import com.emag.config.MyConfigurer;
+import com.common.config.MyConfigurer;
 import com.hally.cache.EhcacheService;
 import com.hally.cache.ObjectEhCache;
 import com.hally.common.Constants;

@@ -1,4 +1,4 @@
-package com.emag.util;
+package com.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;

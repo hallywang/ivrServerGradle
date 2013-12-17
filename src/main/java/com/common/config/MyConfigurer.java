@@ -1,4 +1,4 @@
-package com.emag.config;
+package com.common.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

@@ -1,6 +1,6 @@
 package com.hally.pagination;
 
-import com.emag.util.KeySynchronizer;
+import com.common.util.KeySynchronizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

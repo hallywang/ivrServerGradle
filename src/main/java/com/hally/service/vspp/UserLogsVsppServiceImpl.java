@@ -1,7 +1,7 @@
 package com.hally.service.vspp;
 
-import com.emag.config.MyConfigurer;
-import com.emag.util.TimeUtil;
+import com.common.config.MyConfigurer;
+import com.common.util.TimeUtil;
 import com.hally.pojo.IvrUserLogs;
 import com.hally.service.IUserLogsService;
 import com.hisunsray.vspp.data.PacketHeadVO;

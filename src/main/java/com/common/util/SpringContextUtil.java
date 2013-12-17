@@ -1,4 +1,4 @@
-package com.emag.util;
+package com.common.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

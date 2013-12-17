@@ -1,4 +1,4 @@
-package com.emag.file;
+package com.common.file;
 
 import java.io.File;
 import java.io.RandomAccessFile;

@@ -1,7 +1,7 @@
 package com.hally.model;
 
 
-import com.emag.util.SpringContextUtil;
+import com.common.util.SpringContextUtil;
 import com.hally.service.ICommonService;
 import org.apache.commons.lang.builder.ToStringBuilder;
 

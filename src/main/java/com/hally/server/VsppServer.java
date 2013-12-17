@@ -1,6 +1,6 @@
 package com.hally.server;
 
-import com.emag.config.MyConfigurer;
+import com.common.config.MyConfigurer;
 import com.hally.service.IBlackUserService;
 import com.hally.service.vspp.IVsppService;
 import com.hisunsray.intersp.TCPSpServer;

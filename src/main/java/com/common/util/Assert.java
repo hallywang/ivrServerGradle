@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.emag.util;
+package com.common.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;

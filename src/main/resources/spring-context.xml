@@ -24,7 +24,7 @@
         </property>
     </bean>
 
-    <bean id="propertiesReader" class="com.emag.config.MyConfigurer">
+    <bean id="propertiesReader" class="com.common.config.MyConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:config.properties</value>
@@ -119,12 +119,11 @@
             <map>
                 <entry key="00001" value-ref="checkUserVsppService"/>
                 <entry key="0601" value-ref="userLogsVsppService"/>
-
             </map>
         </constructor-arg>
     </bean>
 
-    <!-- 要调用的工作类 -->
+
     <!-- 定义调用对象和调用对象的方法 -->
     <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!-- 调用的类 -->
