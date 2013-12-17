@@ -1,6 +1,8 @@
 package com.hally.service.vspp;
 
 import com.emag.config.MyConfigurer;
+import com.hally.cache.EhcacheService;
+import com.hally.cache.ObjectEhCache;
 import com.hally.service.IBlackUserService;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
@@ -24,6 +26,9 @@ public class CheckUserVsppServiceImpl implements IVsppService {
 
     @Resource
     private IBlackUserService ivrBlackUserService;
+
+    @Resource
+    private EhcacheService ehcacheService;
 
     @Override
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
@@ -65,7 +70,15 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         String smsTemplateId = "";  //挂机短信-模板号
         String smsContentId = ""; //挂机短信-内容ID
 
-        List list = ivrBlackUserService.getByMobile(userMobile);
+        ObjectEhCache cache = ehcacheService.getCache("blackUser");
+
+
+        List list = (List) cache.get(userMobile);
+
+        if (list == null) {
+            list = ivrBlackUserService.getByMobile(userMobile);
+            cache.put(userMobile, list);
+        }
 
         if (list != null && list.size() > 0) {
             flag = "9";

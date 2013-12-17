@@ -76,6 +76,9 @@ public class VsppServer {
                 String responseHeadString = responseHead.getPacketHeadString(responseBody);
                 logger.info("==out==header is:{},errorNo is:{},body is:{}",
                         responseHeadString, responseHead.getErrno(),responseBody);
+
+                logger.info("end to recv packets");
+
             }
         } catch (Exception e) {
             logger.error("致命错误：{}", e);
