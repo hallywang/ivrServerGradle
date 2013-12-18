@@ -135,16 +135,30 @@
             <value>initBlackUserToCache</value>
         </property>
     </bean>
-    <!-- 定义触发时间 -->
-    <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+
+
+    <!-- 每隔10分钟跑一次，系统启动后跑一次。 -->
+    <bean id="doTime" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail">
             <ref bean="jobtask"/>
         </property>
-        <!-- cron表达式 每10分钟一次-->
-        <property name="cronExpression">
-            <value>* 10,20,30,40,50,00 * * * ?</value>
-        </property>
+        <property name="startDelay" value="0" />
+        <property name="repeatInterval" value="10000" />
     </bean>
+
+
+    <!-- 定义触发时间 -->
+   <!-- <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="jobtask"/>
+        </property>
+        &lt;!&ndash; cron表达式 每10分钟一次&ndash;&gt;
+        <property name="cronExpression">
+            <value>00 10,20,30,40,50,00 * * * ?</value>
+        </property>
+    </bean>-->
+
+
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
     <bean id="startQuertz" lazy-init="false" autowire="no"
           class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

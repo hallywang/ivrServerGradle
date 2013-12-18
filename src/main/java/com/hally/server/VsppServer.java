@@ -28,13 +28,8 @@ public class VsppServer {
     @Resource
     private Map vsppServiceFactory;
 
-    @Resource(name="blackUserService")
-    private IBlackUserService blackUserService;
-
-
-    public void startServer() {
+    public void startServer() throws Exception {
         logger.info("NOW Begin CommInit");
-        blackUserService.initBlackUserToCache();//加载黑名单缓存
         TCPSpServer tcpServer = new TCPSpServer();
         int nPort = Integer.valueOf(MyConfigurer.getContextProperty("nPort").toString());
         int nKey = Integer.valueOf(MyConfigurer.getContextProperty("nKey").toString());
@@ -42,6 +37,13 @@ public class VsppServer {
 
             int ret = tcpServer.vsppCommInit(nPort, nKey);
             logger.info("comminit ret is {}", ret);
+
+            if(ret!=0){
+                logger.error("启动服务失败,进程退出,可能是端口{}被占用，ret is:{} ",nPort,ret);
+                 throw  new Exception("启动服务失败,进程退出,可能是端口"+nPort
+                         +"被占用，ret is:"+ret);
+            }
+
             while (true) {
 
                 logger.info("begin to recv packets");
@@ -88,6 +90,7 @@ public class VsppServer {
             }
         } catch (Exception e) {
             logger.error("致命错误：{}", e);
+            throw e;
         }
 
     }
