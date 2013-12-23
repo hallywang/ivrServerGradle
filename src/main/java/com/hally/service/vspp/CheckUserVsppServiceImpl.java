@@ -83,12 +83,15 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         if (blackUser != null) {
             logger.info("黑名单用户:{}, serviceId:{}", userMobile, serviceId);
             flag = "9"; //限制接入
+            blockTip = (String) MyConfigurer.getContextProperty("blockTip");  //todo 文件名规则
         } else {
             cacheKey = userMobile + "-0"; //全局黑名单
             blackUser = (IvrBlackUser) cache.get(cacheKey);
-            if(blackUser!=null){
+            if (blackUser != null) {
                 logger.info("全局黑名单用户:{}, serviceId:{}", userMobile, serviceId);
                 flag = "9"; //限制接入
+                blockTip = (String) MyConfigurer.getContextProperty("blockTip");
+
             }
         }
         responseBody.append(flag).append(split);      //字段1
