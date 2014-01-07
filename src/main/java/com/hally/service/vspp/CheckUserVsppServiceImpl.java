@@ -51,7 +51,22 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         StringBuilder responseBody = new StringBuilder();
 
         if (fileds == null || fileds.length < 4) {
-            responseBody.append("error request body||||||||||||||");
+            responseBody.append("error request body");
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+            responseBody.append(split);
+
             //拼装正确的包体回复，防止对方客户端报错
             paHeadVO.setErrno("00002");
             logger.error("error request body:{}", body);

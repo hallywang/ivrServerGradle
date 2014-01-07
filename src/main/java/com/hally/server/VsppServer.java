@@ -63,10 +63,11 @@ public class VsppServer {
                 String pBody = clientResquestInfo.getPacketBody();
                 String pHeader = clientResquestHeader.getPacketHeadString(pBody);
                 String errorNo= clientResquestHeader.getErrno();
+                String seqNo = clientResquestHeader.getSeqNo();
 
                 logger.info("==in==host ip is:{},port is:{}", ip, port);
-                logger.info("==in==serviceId:{},operateid:{},header is:{},errorNo is:{},body is:{}",
-                        serviceId, operateId, pHeader, errorNo,pBody);
+                logger.info("==in==seqNo:{},serviceId:{},operateid:{},header is:{},errorNo is:{},body is:{}",
+                        seqNo,serviceId, operateId, pHeader, errorNo,pBody);
 
                 //根据操作ID获取接口处理的实现类
                 IVsppService vsppService = (IVsppService) vsppServiceFactory.get(operateId);
@@ -82,8 +83,9 @@ public class VsppServer {
                 String responseBody = responseInfo.getPacketBody();
                 PacketHeadVO responseHead = responseInfo.getPaHeadVO();
                 String responseHeadString = responseHead.getPacketHeadString(responseBody);
-                logger.info("==out==header is:{},errorNo is:{},body is:{}",
-                        responseHeadString, responseHead.getErrno(),responseBody);
+                String respSeqNo = responseHead.getSeqNo();
+                logger.info("==out==seqNo:{},header is:{},errorNo is:{},body is:{}",
+                        respSeqNo, responseHeadString, responseHead.getErrno(),responseBody);
 
                 logger.info("end to recv packets");
 
