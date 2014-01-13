@@ -45,11 +45,9 @@
 
     <cache name="blackUser"
            maxEntriesLocalHeap="10000"
-           maxEntriesLocalDisk="1000"
+           maxEntriesLocalDisk="100000"
            eternal="true"
-           diskSpoolBufferSizeMB="20"
-           timeToIdleSeconds="3000"
-           timeToLiveSeconds="6000"
+           diskSpoolBufferSizeMB="200"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
         <persistence strategy="localTempSwap"/>

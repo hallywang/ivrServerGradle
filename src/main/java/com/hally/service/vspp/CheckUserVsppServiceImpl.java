@@ -45,6 +45,7 @@ public class CheckUserVsppServiceImpl implements IVsppService {
     private String responseBody(String body, PacketHeadVO paHeadVO) {
 
         String split = (String) MyConfigurer.getContextProperty("split");
+        String spId = (String) MyConfigurer.getContextProperty("spId");
         String serviceId = paHeadVO.getServerID(); //serviceid
 
         String[] fileds = StringUtils.split(body, split);
@@ -98,14 +99,14 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         if (blackUser != null) {
             logger.info("黑名单用户:{}, serviceId:{}", userMobile, serviceId);
             flag = "9"; //限制接入
-            blockTip = (String) MyConfigurer.getContextProperty("blockTip");  //todo 文件名规则
+            blockTip = spId + MyConfigurer.getContextProperty("blockTip");  //todo 文件名规则
         } else {
             cacheKey = userMobile + "-0"; //全局黑名单
             blackUser = (IvrBlackUser) cache.get(cacheKey);
             if (blackUser != null) {
                 logger.info("全局黑名单用户:{}, serviceId:{}", userMobile, serviceId);
                 flag = "9"; //限制接入
-                blockTip = (String) MyConfigurer.getContextProperty("blockTip");
+                blockTip = spId + MyConfigurer.getContextProperty("blockTip");  //todo 文件名规则
 
             }
         }
