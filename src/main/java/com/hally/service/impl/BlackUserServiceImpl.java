@@ -62,7 +62,7 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
 
         cache.cleanCache();
 
-        List list = ivrBlackUserDao.listAll();
+        List list = ivrBlackUserDao.loadAllValidUsers();
         String cacheKey;
         for (Object blackUser1 : list) {
             IvrBlackUser blackUser = (IvrBlackUser) blackUser1;
@@ -71,7 +71,7 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
         }
         long end = System.currentTimeMillis();
 
-        logger.info("=init= blackUserList to cache sucess,cost:{} s", (end - start) / 1000);
+        logger.info("=init= blackUserList to cache sucess,cost:{} s,total:{} users", (end - start) / 1000,list.size());
     }
 
 

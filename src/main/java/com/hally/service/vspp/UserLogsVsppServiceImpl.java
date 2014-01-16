@@ -57,6 +57,12 @@ public class UserLogsVsppServiceImpl implements IVsppService {
 
         String errorNo = "00002";
 
+        String serviceId="";
+
+        PacketHeadVO packetHeadVO = packetInfoVO.getPaHeadVO();
+
+        serviceId = packetHeadVO.getServerID();
+
         while (true) {
 
             String body = packetInfoVO.getPacketBody();
@@ -97,6 +103,7 @@ public class UserLogsVsppServiceImpl implements IVsppService {
             try {
                 IvrUserLogs ivrUserLogs = new IvrUserLogs();
                 ivrUserLogs.setMsisdn(userMobile);
+                ivrUserLogs.setServiceId(serviceId);
                 ivrUserLogs.setCallNumber(callNumber);
                 ivrUserLogs.setCallTime(sTime);
                 ivrUserLogs.setEndTime(eTime);

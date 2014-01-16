@@ -120,16 +120,16 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
 
     @Override
     public List<M> listAll(int pn, int pageSize) {
-        return list(HQL_LIST_ALL, pn, pageSize);
+        return listPage(HQL_LIST_ALL, pn, pageSize);
     }
 
     @Override
     public List<M> pre(PK pk, int pn, int pageSize) {
         if (pk == null) {
-            return list(HQL_LIST_ALL, pn, pageSize);
+            return listPage(HQL_LIST_ALL, pn, pageSize);
         }
         //倒序，重排
-        List<M> result = list(HQL_OPTIMIZE_PRE_LIST_ALL, 1, pageSize, pk);
+        List<M> result = listPage(HQL_OPTIMIZE_PRE_LIST_ALL, 1, pageSize, pk);
         Collections.reverse(result);
         return result;
     }
@@ -137,9 +137,9 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     @Override
     public List<M> next(PK pk, int pn, int pageSize) {
         if (pk == null) {
-            return list(HQL_LIST_ALL, pn, pageSize);
+            return listPage(HQL_LIST_ALL, pn, pageSize);
         }
-        return list(HQL_OPTIMIZE_NEXT_LIST_ALL, 1, pageSize, pk);
+        return listPage(HQL_OPTIMIZE_NEXT_LIST_ALL, 1, pageSize, pk);
     }
 
     @Override
@@ -166,7 +166,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     }
 
     protected List<M> listSelf(final String hql, final int pn, final int pageSize, final Object... paramlist) {
-        return this.<M>list(hql, pn, pageSize, paramlist);
+        return this.<M>listPage(hql, pn, pageSize, paramlist);
     }
 
 
@@ -191,7 +191,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> List<T> list(final String hql, final int pn, final int pageSize, final Object... paramlist) {
+    protected <T> List<T> listPage(final String hql, final int pn, final int pageSize, final Object... paramlist) {
         Query query = getSession().createQuery(hql);
         setParameters(query, paramlist);
         if (pn > -1 && pageSize > -1) {
@@ -264,7 +264,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     }
 
     protected <T> List<T> list(final String sql, final Object... paramlist) {
-        return list(sql, -1, -1, paramlist);
+        return listPage(sql, -1, -1, paramlist);
     }
 
     @SuppressWarnings("unchecked")
