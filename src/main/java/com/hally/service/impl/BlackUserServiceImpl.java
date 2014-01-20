@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
 
     private IvrBlackUserDao ivrBlackUserDao;
 
-    @Resource(name="ehcacheService")
+    @Resource(name = "ehcacheService")
     private ICacheService cacheService;
 
     @Resource(name = "ivrBlackUserDao")
@@ -47,7 +48,14 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
     @Override
     public List<IvrBlackUser> getByMobile(String mobile) {
 
-        List list = ivrBlackUserDao.listByHql("from IvrBlackUser where msisdn=? ", mobile);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("mobile", mobile);
+
+
+        List list = ivrBlackUserDao.listByHql("from IvrBlackUser where msisdn=:mobile ", params);
+
 
         return list;
 
@@ -57,8 +65,13 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
     public void initBlackUserToCache() {
         IObjectCache cache = cacheService.getCache(Constants.CACHE_NAME_BLACK_USER);
 
+
         logger.info("=init= blackUserList to cache begin");
         long start = System.currentTimeMillis();
+
+        logger.info("test=={}", ivrBlackUserDao.listAll().size());
+
+
 
         cache.cleanCache();
 
@@ -71,7 +84,7 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
         }
         long end = System.currentTimeMillis();
 
-        logger.info("=init= blackUserList to cache sucess,cost:{} s,total:{} users", (end - start) / 1000,list.size());
+        logger.info("=init= blackUserList to cache sucess,cost:{} s,total:{} users", (end - start) / 1000, list.size());
     }
 
 

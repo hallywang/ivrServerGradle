@@ -1,6 +1,7 @@
 package com.hally.dao.base;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IBaseDao<M extends java.io.Serializable, PK extends java.io.Serializable> {
     
@@ -33,7 +34,8 @@ public interface IBaseDao<M extends java.io.Serializable, PK extends java.io.Ser
     
     public void clear();
 
-    public List<M> listByHql(String hql, Object... params);
+    public List<M> listByHql(String hql, Map params);
+
 
 
 

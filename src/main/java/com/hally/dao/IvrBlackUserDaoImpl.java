@@ -4,6 +4,7 @@ import com.hally.dao.base.hibernate4.BaseHibernateDao;
 import com.hally.pojo.IvrBlackUser;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,7 +19,12 @@ public class IvrBlackUserDaoImpl extends BaseHibernateDao<IvrBlackUser, Integer>
 
     public List<IvrBlackUser> loadAllValidUsers() {
 
-        return listByHql("from IvrBlackUser where status=?",1);
+        HashMap<String,Object> params = new HashMap<String, Object>();
+
+        params.put("status",1);
+
+
+        return listByHql("from IvrBlackUser where status=:status",params);
 
 
     }
