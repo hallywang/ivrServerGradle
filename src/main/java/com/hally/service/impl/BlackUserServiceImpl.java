@@ -68,11 +68,6 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
 
         logger.info("=init= blackUserList to cache begin");
         long start = System.currentTimeMillis();
-
-        logger.info("test=={}", ivrBlackUserDao.listAll().size());
-
-
-
         cache.cleanCache();
 
         List list = ivrBlackUserDao.loadAllValidUsers();
