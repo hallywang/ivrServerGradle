@@ -1,4 +1,4 @@
-package com.hally.dao;
+package com.hally.dao.ivr;
 
 import com.hally.dao.base.hibernate4.BaseHibernateDao;
 import com.hally.pojo.IvrBlackUser;

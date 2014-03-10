@@ -6,8 +6,11 @@ import com.hally.dao.base.IBaseDao;
 import com.hally.pagination.Page;
 import com.hally.pagination.PageUtil;
 import com.hally.service.IBaseService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 
 public abstract class BaseService<M extends java.io.Serializable, PK extends java.io.Serializable> implements IBaseService<M, PK> {
     
@@ -72,7 +75,12 @@ public abstract class BaseService<M extends java.io.Serializable, PK extends jav
     public Page<M> listAllWithOptimize(int pn) {
         return this.listAllWithOptimize(pn, Constants.DEFAULT_PAGE_SIZE);
     }
-    
+
+    @Override
+    public List<M> listByHql(String hql, Map params) {
+        return baseDao.listByHql(hql,params);
+    }
+
     @Override
     public Page<M> listAll(int pn, int pageSize) {
         Integer count = countAll();
@@ -105,5 +113,6 @@ public abstract class BaseService<M extends java.io.Serializable, PK extends jav
     public Page<M> next(PK pk, int pn) {
         return next(pk, pn, Constants.DEFAULT_PAGE_SIZE);
     }
-    
+
+
 }

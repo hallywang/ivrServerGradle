@@ -69,7 +69,7 @@ public class CheckUserVsppServiceImpl implements IVsppService {
             responseBody.append(split);
 
             //拼装正确的包体回复，防止对方客户端报错
-            paHeadVO.setErrno("00002");
+            paHeadVO.setErrno(Constants.ERROR_NO_ERROR);
             logger.error("error request body:{}", body);
             return responseBody.toString();
         }

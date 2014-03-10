@@ -19,8 +19,14 @@ public class IvrUserLogs implements Serializable {
     private Long id;
     private String msisdn;
 
+    @Column(name = "operate_id")
+    private String operateId;
+
     @Column(name = "service_id")
     private String serviceId;
+
+    @Column(name = "touch_button")
+    private String touchButton;
 
     @Column(name = "call_number")
     private String callNumber;
@@ -99,5 +105,21 @@ public class IvrUserLogs implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getOperateId() {
+        return operateId;
+    }
+
+    public void setOperateId(String operateId) {
+        this.operateId = operateId;
+    }
+
+    public String getTouchButton() {
+        return touchButton;
+    }
+
+    public void setTouchButton(String touchButton) {
+        this.touchButton = touchButton;
     }
 }

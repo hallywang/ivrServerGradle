@@ -6,6 +6,7 @@ import com.hally.model.AbstractModel;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface ICommonDao {
     
@@ -30,6 +31,8 @@ public interface ICommonDao {
     public <T extends AbstractModel> List<T> listAll(Class<T> entityClass, int pn);
     
     public <T extends AbstractModel> List<T> listAll(Class<T> entityClass, int pn, int pageSize);
-    
+
+    public <T extends AbstractModel> List<T> listByHql(String hql,Map<String,Object> params);
+
 
 }

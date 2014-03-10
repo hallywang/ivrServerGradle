@@ -6,16 +6,19 @@ import com.hally.dao.base.ICommonDao;
 import com.hally.model.AbstractModel;
 import com.hally.pagination.PageUtil;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
-@Component("CommonHibernateDao")
+@Repository("CommonHibernateDao")
 public class CommonHibernateDao implements ICommonDao {
 
 
@@ -84,5 +87,31 @@ public class CommonHibernateDao implements ICommonDao {
 
     }
 
+    @Override
+    public <T extends AbstractModel> List<T> listByHql(String hql, Map<String,Object> params) {
+        Query query = getSession().createQuery(hql);
+        setParameters(query, params);
 
+        List<T> results = query.list();
+        return results;
+    }
+
+    protected void setParameters(Query query, Map<String, Object> paramMap) {
+        if (paramMap != null && paramMap.size() > 0) {
+
+            for (String s : paramMap.keySet()) {
+                query.setParameter(s, paramMap.get(s));
+            }
+
+
+           /* for (int i = 0; i < paramMap.size(); i++) {
+                if (paramMap[i] instanceof Date) {
+                    //TODO 难道这是bug 使用setParameter不行？？
+                    query.setTimestamp(i, (Date) paramMap[i]);
+                } else {
+                    query.setParameter(i, paramMap[i]);
+                }
+            }*/
+        }
+    }
 }

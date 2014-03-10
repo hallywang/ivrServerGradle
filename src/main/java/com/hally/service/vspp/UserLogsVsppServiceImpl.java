@@ -2,6 +2,7 @@ package com.hally.service.vspp;
 
 import com.common.config.MyConfigurer;
 import com.common.util.TimeUtil;
+import com.hally.common.Constants;
 import com.hally.pojo.IvrUserLogs;
 import com.hally.service.IUserLogsService;
 import com.hisunsray.vspp.data.PacketHeadVO;
@@ -55,13 +56,15 @@ public class UserLogsVsppServiceImpl implements IVsppService {
     private String saveLogs(PacketInfoVO packetInfoVO) {
         String split = (String) MyConfigurer.getContextProperty("split");
 
-        String errorNo = "00002";
+        String errorNo = Constants.ERROR_NO_ERROR;
 
         String serviceId="";
 
         PacketHeadVO packetHeadVO = packetInfoVO.getPaHeadVO();
 
         serviceId = packetHeadVO.getServerID();
+
+        String operateId = packetHeadVO.getOperateID();
 
         while (true) {
 
@@ -109,8 +112,12 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setEndTime(eTime);
                 ivrUserLogs.setCallSecond(callSecond);
                 ivrUserLogs.setCreateTime(new Date());
+                ivrUserLogs.setOperateId(operateId);
+
                 userLogsService.save(ivrUserLogs);
-                errorNo = "00000";
+
+
+                errorNo = Constants.ERROR_NO_OK;
             } catch (Exception e) {
                 logger.error("记录日志失败,入库错误:{}", e);
             }

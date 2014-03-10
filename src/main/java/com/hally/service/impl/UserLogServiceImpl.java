@@ -1,6 +1,6 @@
 package com.hally.service.impl;
 
-import com.hally.dao.IvrUserLogsDao;
+import com.hally.dao.ivr.IvrUserLogsDao;
 import com.hally.dao.base.IBaseDao;
 import com.hally.pojo.IvrUserLogs;
 import com.hally.service.IUserLogsService;

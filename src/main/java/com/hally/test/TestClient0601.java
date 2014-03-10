@@ -1,11 +1,23 @@
+package com.hally.test;
+
+/**
+ * function description.
+ * <p/>
+ * <p><h2>Change History</h2>
+ * <p/>
+ * 13-12-13 | hally | created
+ * <p/>
+ * </p>
+ *
+ * @author hally
+ * @version 1.0.0
+ */
 /*
  * Created on 2004-3-17
  *
  * To change the template for this generated file go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-package com.hally.test;
-
 
 import com.hisunsray.intersp.TCPSpClient;
 import com.hisunsray.vspp.data.ClientVO;
@@ -14,20 +26,18 @@ import com.hisunsray.vspp.data.PacketInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-
 /**
  * @author Administrator
  *         <p/>
  *         To change the template for this generated type comment go to Window - Preferences - Java - Code Generation -
  *         Code and Comments
  */
-public class TestClient {
-    private static Logger logger = LoggerFactory.getLogger(TestClient.class);
+public class TestClient0601 {
+    private static Logger logger = LoggerFactory.getLogger(TestClient0601.class);
 
     private static int connectServer(TCPSpClient spClient, ClientVO cliVO, PacketInfoVO paVO) throws Exception {
         int result = 0;
-        String nIP = "192.168.167.90";
+        String nIP = "127.0.0.1";
         int nPort = 8080;
         while (true) {
 
@@ -44,7 +54,8 @@ public class TestClient {
             }
             logger.debug("out bind");
         }
-        String bodyStr = "13675180163|125901234|"+new Date()+"|025||||||";
+        // PacketInfoVO paVO = new PacketInfoVO();
+        String bodyStr = "13675180163|125901234|2013-12-12 13:10:10|2013-12-12 14:10:10";
             /*for(int i=0;i<14000;i++)
                 bodyStr=bodyStr+"9";*/
         paVO.setPacketBody(bodyStr);
@@ -55,8 +66,9 @@ public class TestClient {
         paHeadVO.setOpCode("0101");
         paHeadVO.setSeqNo("123123");
         paHeadVO.setSpID("1");
-        paHeadVO.setServerID("00016"); //serviceid
-        paHeadVO.setOperateID("00001");//////
+        paHeadVO.setServerID("05432");
+
+        paHeadVO.setOperateID("0601");//////
         paHeadVO.setCallingNUMBER("13675180163");
         paHeadVO.setCalledNUMBER("12590443");
 
@@ -98,7 +110,7 @@ public class TestClient {
                 logger.info("result 结果 is {}", paInfoVO.getPacketBody());
 
                 // PacketInfoVO paVO = new PacketInfoVO();
-                String bodyStr = "13675180163|125901234|"+new Date()+"|025||||||";
+                String bodyStr = "13675180163|11111|2013-12-12 13:10:10|2013-12-12 14:10:10";
             /*for(int i=0;i<14000;i++)
                 bodyStr=bodyStr+"9";*/
                 paVO.setPacketBody(bodyStr);

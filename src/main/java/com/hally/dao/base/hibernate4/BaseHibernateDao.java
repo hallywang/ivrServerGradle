@@ -108,31 +108,31 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
 
     @Override
     public int countAll() {
-        Long total = aggregate(HQL_COUNT_ALL,null);
+        Long total = aggregate(HQL_COUNT_ALL, null);
         return total.intValue();
     }
 
 
     @Override
     public List<M> listAll() {
-        return list(HQL_LIST_ALL,null);
+        return list(HQL_LIST_ALL, null);
     }
 
     @Override
     public List<M> listAll(int pn, int pageSize) {
-        return listPage(HQL_LIST_ALL, pn, pageSize,null);
+        return listPage(HQL_LIST_ALL, pn, pageSize, null);
     }
 
     @Override
     public List<M> pre(PK pk, int pn, int pageSize) {
         if (pk == null) {
-            return listPage(HQL_LIST_ALL, pn, pageSize,null);
+            return listPage(HQL_LIST_ALL, pn, pageSize, null);
         }
         //倒序，重排
 
-        HashMap<String,Object> params = new HashMap<String,Object>();
+        HashMap<String, Object> params = new HashMap<String, Object>();
 
-        params.put("pkName",pk);
+        params.put("pkName", pk);
 
         List<M> result = listPage(HQL_OPTIMIZE_PRE_LIST_ALL, 1, pageSize, params);
         Collections.reverse(result);
@@ -142,12 +142,12 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     @Override
     public List<M> next(PK pk, int pn, int pageSize) {
         if (pk == null) {
-            return listPage(HQL_LIST_ALL, pn, pageSize,null);
+            return listPage(HQL_LIST_ALL, pn, pageSize, null);
         }
 
-        HashMap<String,Object> params = new HashMap<String,Object>();
+        HashMap<String, Object> params = new HashMap<String, Object>();
 
-        params.put("pkName",pk);
+        params.put("pkName", pk);
         return listPage(HQL_OPTIMIZE_NEXT_LIST_ALL, 1, pageSize, params);
     }
 
@@ -160,12 +160,12 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     public void clear() {
         getSession().clear();
     }
-    public List<M> listByHql(String hql, Map params){
-         return this.list(hql,params);
+    public List<M> listByHql(String hql, Map params) {
+        return this.list(hql, params);
     }
 
 
-    protected long getIdResult(String hql, Map<String,Object> paramlist) {
+    protected long getIdResult(String hql, Map<String, Object> paramlist) {
         long result = -1;
         List<?> list = list(hql, paramlist);
         if (list != null && list.size() > 0) {
@@ -174,7 +174,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
         return result;
     }
 
-    protected List<M> listSelf(final String hql, final int pn, final int pageSize, final Map<String,Object> paramlist) {
+    protected List<M> listSelf(final String hql, final int pn, final int pageSize, final Map<String, Object> paramlist) {
         return this.<M>listPage(hql, pn, pageSize, paramlist);
     }
 
@@ -184,7 +184,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
      */
     @SuppressWarnings("unchecked")
     protected <T> List<T> listWithIn(final String hql, final int start, final int length, final Map<String, Collection<?>> map,
-                                     final Map<String,Object> paramlist) {
+                                     final Map<String, Object> paramlist) {
         Query query = getSession().createQuery(hql);
         setParameters(query, paramlist);
         for (Entry<String, Collection<?>> e : map.entrySet()) {
@@ -219,12 +219,11 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     }
 
 
-
     /**
      * 根据查询条件返回唯一一条记录
      */
     @SuppressWarnings("unchecked")
-    protected <T> T unique(final String hql, final Map<String,Object> paramlist) {
+    protected <T> T unique(final String hql, final Map<String, Object> paramlist) {
         Query query = getSession().createQuery(hql);
         setParameters(query, paramlist);
         return (T) query.setMaxResults(1).uniqueResult();
@@ -234,7 +233,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
      * for in
      */
     @SuppressWarnings("unchecked")
-    protected <T> T aggregate(final String hql, final Map<String, Collection<?>> map, final Map<String,Object> paramlist) {
+    protected <T> T aggregate(final String hql, final Map<String, Collection<?>> map, final Map<String, Object> paramlist) {
         Query query = getSession().createQuery(hql);
         if (paramlist != null) {
             setParameters(query, paramlist);
@@ -247,7 +246,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T aggregate(final String hql, final Map<String,Object> paramlist) {
+    protected <T> T aggregate(final String hql, final Map<String, Object> paramlist) {
         Query query = getSession().createQuery(hql);
         setParameters(query, paramlist);
 
@@ -259,28 +258,28 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
     /**
      * 执行批处理语句.如 之间insert, update, delete 等.
      */
-    protected int execteBulk(final String hql, final Map<String,Object> paramlist) {
+    protected int execteBulk(final String hql, final Map<String, Object> paramlist) {
         Query query = getSession().createQuery(hql);
         setParameters(query, paramlist);
         Object result = query.executeUpdate();
         return result == null ? 0 : ((Integer) result).intValue();
     }
 
-    protected int execteNativeBulk(final String natvieSQL, final Map<String,Object> paramlist) {
+    protected int execteNativeBulk(final String natvieSQL, final Map<String, Object> paramlist) {
         Query query = getSession().createSQLQuery(natvieSQL);
         setParameters(query, paramlist);
         Object result = query.executeUpdate();
         return result == null ? 0 : ((Integer) result).intValue();
     }
 
-    protected <T> List<T> list(final String sql, final Map<String,Object> paramlist) {
+    protected <T> List<T> list(final String sql, final Map<String, Object> paramlist) {
         return listPage(sql, -1, -1, paramlist);
     }
 
     @SuppressWarnings("unchecked")
     public <T> List<T> listByNative(final String nativeSQL, final int pn, final int pageSize,
                                     final List<Entry<String, Class<?>>> entityList,
-                                    final List<Entry<String, Type>> scalarList, final Map<String,Object> paramlist) {
+                                    final List<Entry<String, Type>> scalarList, final Map<String, Object> paramlist) {
 
         SQLQuery query = getSession().createSQLQuery(nativeSQL);
         if (entityList != null) {
@@ -309,7 +308,7 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
 
     @SuppressWarnings("unchecked")
     protected <T> T aggregateByNative(final String natvieSQL, final List<Entry<String, Type>> scalarList,
-                                      final Map<String,Object> paramlist) {
+                                      final Map<String, Object> paramlist) {
         SQLQuery query = getSession().createSQLQuery(natvieSQL);
         if (scalarList != null) {
             for (Entry<String, Type> entity : scalarList) {
@@ -355,11 +354,11 @@ public abstract class BaseHibernateDao<M extends java.io.Serializable,
         return (T) unique(criteria.getExecutableCriteria(getSession()));
     }
 
-    protected void setParameters(Query query, Map<String,Object> paramMap) {
-        if (paramMap != null && paramMap.size()>0) {
+    protected void setParameters(Query query, Map<String, Object> paramMap) {
+        if (paramMap != null && paramMap.size() > 0) {
 
             for (String s : paramMap.keySet()) {
-                 query.setParameter(s,paramMap.get(s)) ;
+                query.setParameter(s, paramMap.get(s));
             }
 
 

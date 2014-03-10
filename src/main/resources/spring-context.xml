@@ -119,6 +119,8 @@
             <map>
                 <entry key="00001" value-ref="checkUserVsppService"/>
                 <entry key="0601" value-ref="userLogsVsppService"/>
+                <entry key="00002" value-ref="configDataVsppService"/>
+
             </map>
         </constructor-arg>
     </bean>

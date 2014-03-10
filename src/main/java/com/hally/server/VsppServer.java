@@ -1,7 +1,6 @@
 package com.hally.server;
 
 import com.common.config.MyConfigurer;
-import com.hally.service.IBlackUserService;
 import com.hally.service.vspp.IVsppService;
 import com.hisunsray.intersp.TCPSpServer;
 import com.hisunsray.vspp.data.ClientVO;
@@ -38,10 +37,10 @@ public class VsppServer {
             int ret = tcpServer.vsppCommInit(nPort, nKey);
             logger.info("comminit ret is {}", ret);
 
-            if(ret!=0){
-                logger.error("启动服务失败,进程退出,可能是端口{}被占用，ret is:{} ",nPort,ret);
-                 throw  new Exception("启动服务失败,进程退出,可能是端口"+nPort
-                         +"被占用，ret is:"+ret);
+            if (ret != 0) {
+                logger.error("启动服务失败,进程退出,可能是端口{}被占用，ret is:{} ", nPort, ret);
+                throw new Exception("启动服务失败,进程退出,可能是端口" + nPort
+                        + "被占用，ret is:" + ret);
             }
 
             while (true) {
@@ -62,12 +61,12 @@ public class VsppServer {
                 String operateId = clientResquestHeader.getOperateID();
                 String pBody = clientResquestInfo.getPacketBody();
                 String pHeader = clientResquestHeader.getPacketHeadString(pBody);
-                String errorNo= clientResquestHeader.getErrno();
+                String errorNo = clientResquestHeader.getErrno();
                 String seqNo = clientResquestHeader.getSeqNo();
 
                 logger.info("==in==host ip is:{},port is:{}", ip, port);
                 logger.info("==in==seqNo:{},serviceId:{},operateid:{},header is:{},errorNo is:{},body is:{}",
-                        seqNo,serviceId, operateId, pHeader, errorNo,pBody);
+                        seqNo, serviceId, operateId, pHeader, errorNo, pBody);
 
                 //根据操作ID获取接口处理的实现类
                 IVsppService vsppService = (IVsppService) vsppServiceFactory.get(operateId);
@@ -75,17 +74,20 @@ public class VsppServer {
                 PacketInfoVO responseInfo = new PacketInfoVO(); //返回信息
                 try {
                     responseInfo = vsppService.response(clientResquestInfo); //处理输入信息
-                } catch (Exception e) {
-                    logger.error("本次请求有误{}", e);
-                }
-                tcpServer.vsppSendMessage(responseInfo.getClientVO(), responseInfo);
 
-                String responseBody = responseInfo.getPacketBody();
-                PacketHeadVO responseHead = responseInfo.getPaHeadVO();
-                String responseHeadString = responseHead.getPacketHeadString(responseBody);
-                String respSeqNo = responseHead.getSeqNo();
-                logger.info("==out==seqNo:{},header is:{},errorNo is:{},body is:{}",
-                        respSeqNo, responseHeadString, responseHead.getErrno(),responseBody);
+                    String responseBody = responseInfo.getPacketBody();
+                    PacketHeadVO responseHead = responseInfo.getPaHeadVO();
+                    String responseHeadString = responseHead.getPacketHeadString(responseBody);
+                    String respSeqNo = responseHead.getSeqNo();
+                    logger.info("==out==seqNo:{},header is:{},errorNo is:{},body is:{}",
+                            respSeqNo, responseHeadString, responseHead.getErrno(), responseBody);
+
+
+                } catch (Exception e) {
+                    logger.error("本次请求有误 {}", e);
+                }
+
+                tcpServer.vsppSendMessage(responseInfo.getClientVO(), responseInfo);
 
                 logger.info("end to recv packets");
 

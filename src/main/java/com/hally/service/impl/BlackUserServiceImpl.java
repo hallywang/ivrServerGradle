@@ -1,11 +1,9 @@
 package com.hally.service.impl;
 
-import com.hally.cache.EhcacheService;
 import com.hally.cache.ICacheService;
 import com.hally.cache.IObjectCache;
-import com.hally.cache.ObjectEhCache;
 import com.hally.common.Constants;
-import com.hally.dao.IvrBlackUserDao;
+import com.hally.dao.ivr.IvrBlackUserDao;
 import com.hally.dao.base.IBaseDao;
 import com.hally.pojo.IvrBlackUser;
 import com.hally.service.IBlackUserService;
