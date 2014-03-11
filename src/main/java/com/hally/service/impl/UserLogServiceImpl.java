@@ -18,14 +18,9 @@ import javax.annotation.Resource;
 public class UserLogServiceImpl extends BaseService<IvrUserLogs, Integer>
         implements IUserLogsService {
 
-
-    private IvrUserLogsDao ivrUserLogsDao;
-
     @Override
     @Resource(name = "ivrUserLogsDao")
     public void setBaseDao(IBaseDao<IvrUserLogs, Integer> ivrUserLogsDao) {
         this.baseDao = ivrUserLogsDao;
-        this.ivrUserLogsDao = (IvrUserLogsDao) ivrUserLogsDao;
-
     }
 }

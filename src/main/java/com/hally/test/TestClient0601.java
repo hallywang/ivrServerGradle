@@ -5,7 +5,7 @@ package com.hally.test;
  * <p/>
  * <p><h2>Change History</h2>
  * <p/>
- * 13-12-13 | hally | created
+ * 13-12-13 ; hally ; created
  * <p/>
  * </p>
  *
@@ -38,7 +38,7 @@ public class TestClient0601 {
     private static int connectServer(TCPSpClient spClient, ClientVO cliVO, PacketInfoVO paVO) throws Exception {
         int result = 0;
         String nIP = "127.0.0.1";
-        int nPort = 8080;
+        int nPort = 9090;
         while (true) {
 
             String spID = "1";
@@ -55,7 +55,7 @@ public class TestClient0601 {
             logger.debug("out bind");
         }
         // PacketInfoVO paVO = new PacketInfoVO();
-        String bodyStr = "13675180163|125901234|2013-12-12 13:10:10|2013-12-12 14:10:10";
+        String bodyStr = "13675180163;125901234;2013-12-12 13:10:10;2013-12-12 14:10:10";
             /*for(int i=0;i<14000;i++)
                 bodyStr=bodyStr+"9";*/
         paVO.setPacketBody(bodyStr);
@@ -110,7 +110,7 @@ public class TestClient0601 {
                 logger.info("result 结果 is {}", paInfoVO.getPacketBody());
 
                 // PacketInfoVO paVO = new PacketInfoVO();
-                String bodyStr = "13675180163|11111|2013-12-12 13:10:10|2013-12-12 14:10:10";
+                String bodyStr = "13675180163;11111;2013-12-12 13:10:10;2013-12-12 14:10:10";
             /*for(int i=0;i<14000;i++)
                 bodyStr=bodyStr+"9";*/
                 paVO.setPacketBody(bodyStr);

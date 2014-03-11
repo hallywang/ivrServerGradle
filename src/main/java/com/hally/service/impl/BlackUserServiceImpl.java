@@ -45,29 +45,17 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
 
     @Override
     public List<IvrBlackUser> getByMobile(String mobile) {
-
-
         HashMap<String, String> params = new HashMap<String, String>();
-
         params.put("mobile", mobile);
-
-
-        List list = ivrBlackUserDao.listByHql("from IvrBlackUser where msisdn=:mobile ", params);
-
-
-        return list;
-
+        return ivrBlackUserDao.listByHql("from IvrBlackUser where msisdn=:mobile ", params);
     }
 
     @Override
     public void initBlackUserToCache() {
         IObjectCache cache = cacheService.getCache(Constants.CACHE_NAME_BLACK_USER);
-
-
         logger.info("=init= blackUserList to cache begin");
         long start = System.currentTimeMillis();
         cache.cleanCache();
-
         List list = ivrBlackUserDao.loadAllValidUsers();
         String cacheKey;
         for (Object blackUser1 : list) {
@@ -76,9 +64,6 @@ public class BlackUserServiceImpl extends BaseService<IvrBlackUser, Integer>
             cache.put(cacheKey, blackUser);
         }
         long end = System.currentTimeMillis();
-
         logger.info("=init= blackUserList to cache sucess,cost:{} s,total:{} users", (end - start) / 1000, list.size());
     }
-
-
 }

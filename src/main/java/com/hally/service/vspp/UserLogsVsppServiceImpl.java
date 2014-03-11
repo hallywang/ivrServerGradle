@@ -25,16 +25,12 @@ import java.util.Date;
 @Service("userLogsVsppService")
 public class UserLogsVsppServiceImpl implements IVsppService {
     private static Logger logger = LoggerFactory.getLogger(UserLogsVsppServiceImpl.class);
-
     @Resource
     private IUserLogsService userLogsService;
-
-
     @Override
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
          /*errorno = 00000，成功,errorno = 00002，失败*/
         String errNo = saveLogs(packetInfoVO);
-
         PacketHeadVO paHeadVO = packetInfoVO.getPaHeadVO();
         paHeadVO.setSubCommand("02");
         paHeadVO.setErrno(errNo);
@@ -42,8 +38,6 @@ public class UserLogsVsppServiceImpl implements IVsppService {
         packetInfoVO.setPaHeadVO(paHeadVO);
 
         logger.info("记录用户日志结束");
-
-
         return packetInfoVO;
     }
 
@@ -55,28 +49,18 @@ public class UserLogsVsppServiceImpl implements IVsppService {
      */
     private String saveLogs(PacketInfoVO packetInfoVO) {
         String split = (String) MyConfigurer.getContextProperty("split");
-
         String errorNo = Constants.ERROR_NO_ERROR;
-
-        String serviceId="";
-
         PacketHeadVO packetHeadVO = packetInfoVO.getPaHeadVO();
-
-        serviceId = packetHeadVO.getServerID();
-
+        String serviceId = packetHeadVO.getServerID();
         String operateId = packetHeadVO.getOperateID();
 
         while (true) {
-
             String body = packetInfoVO.getPacketBody();
-
             if (body == null || "".equals(body)) {
                 logger.error("request body is null");
                 break;
             }
-
             String[] fileds = StringUtils.split(body, split);
-
             if (fileds == null || fileds.length < 4) {
                 logger.error("request body is error:{}", body);
                 break;
@@ -94,7 +78,6 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 logger.error("记录日志失败,startTime时间格式错误,startTime:{},ex:{}", startTime, e);
                 break;
             }
-
             try {
                 eTime = TimeUtil.parseDateByString(endTime, "yyyy-MM-dd HH:mm:ss");
                 callSecond = TimeUtil.getSecondDis(sTime, eTime);
@@ -102,7 +85,6 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 logger.error("记录日志失败,endTime时间格式错误,endTime:{},ex:{}", endTime, e);
                 break;
             }
-
             try {
                 IvrUserLogs ivrUserLogs = new IvrUserLogs();
                 ivrUserLogs.setMsisdn(userMobile);
@@ -115,16 +97,12 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setOperateId(operateId);
 
                 userLogsService.save(ivrUserLogs);
-
-
                 errorNo = Constants.ERROR_NO_OK;
             } catch (Exception e) {
                 logger.error("记录日志失败,入库错误:{}", e);
             }
-
             break;
         }
-
         return errorNo;
     }
 }

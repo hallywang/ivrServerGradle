@@ -23,12 +23,8 @@ import java.util.Map;
 public class ConfigDataServiceImpl extends BaseService<IvrConfigData, Integer>
         implements IConfigDataService {
     Logger logger = LoggerFactory.getLogger(ConfigDataServiceImpl.class);
-
     @Resource(name="CommonHibernateDao")
     private ICommonDao CommonHibernateDao;
-
-
-
     @Override
     public List<IvrConfigData> listValid(String operateId, String serviceId) {
         String hql = "from IvrConfigData where status=1 " +
@@ -36,7 +32,6 @@ public class ConfigDataServiceImpl extends BaseService<IvrConfigData, Integer>
                 " and operateId=:operateId ";
 
         Map<String, Object> paramsMap = new HashMap<String, Object>();
-
         paramsMap.put("serviceId", serviceId);
         paramsMap.put("operateId", operateId);
 

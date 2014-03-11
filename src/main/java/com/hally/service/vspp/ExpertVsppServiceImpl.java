@@ -29,52 +29,36 @@ import java.util.List;
 @Service("configDataVsppService")
 public class ExpertVsppServiceImpl implements IVsppService {
     private static Logger logger = LoggerFactory.getLogger(ExpertVsppServiceImpl.class);
-
     @Resource
     private EhcacheService ehcacheService;
-
     @Resource
     private IConfigDataService configDataService;
-
     @Resource
     private IUserLogsService userLogsService;
-
     private static String RESP_STATUS_OK = "0";
     private static String RESP_STATUS_ERROR = "1";
-
     @Override
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
         PacketHeadVO paHeadVO = packetInfoVO.getPaHeadVO();
-
         String pBody = packetInfoVO.getPacketBody();
         String operateId = paHeadVO.getOperateID();
         String serviceId = paHeadVO.getServerID();
-
-
         paHeadVO.setSubCommand("02"); //接口规范，必须设置为02
-
-
         String split = (String) MyConfigurer.getContextProperty("split");
-
         String errNo = Constants.ERROR_NO_ERROR;
         paHeadVO.setErrno(errNo);
 
         while (true) {
-
             String body = packetInfoVO.getPacketBody();
-
             if (body == null || "".equals(body)) {
                 logger.error("request body is null");
                 break;
             }
-
             String[] fileds = StringUtils.split(body, split);
-
             if (fileds == null || fileds.length < 4) {
                 logger.error("request body is error:{}", body);
                 break;
             }
-
             String userMobile = fileds[0];
             String callNumber = fileds[1];
             String startTime = fileds[2];
@@ -106,9 +90,7 @@ public class ExpertVsppServiceImpl implements IVsppService {
             }
 
             List list = configDataService.listValid(operateId, serviceId);
-
             StringBuilder respBody = new StringBuilder();
-
             if (list.size() <= 0) {
                 respBody.append(RESP_STATUS_ERROR);
                 respBody.append(split);
@@ -124,10 +106,8 @@ public class ExpertVsppServiceImpl implements IVsppService {
             paHeadVO.setErrno(errNo);
             packetInfoVO.setPacketBody(respBody.toString());
             packetInfoVO.setPaHeadVO(paHeadVO);
-
             break;
         }
-
         return packetInfoVO;
     }
 }
