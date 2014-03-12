@@ -83,7 +83,8 @@ public class ExpertVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setCreateTime(new Date());
                 ivrUserLogs.setOperateId(operateId);
                 ivrUserLogs.setTouchButton(touchButton);
-
+                logger.info("USERLOGS:{},{},{},{},{},{},{},{}"
+                        ,userMobile,serviceId,operateId,callNumber,sTime,"",callSecond,touchButton) ;
                 userLogsService.save(ivrUserLogs);
             } catch (Exception e) {
                 logger.error("记录用户行为失败,入库错误: {}", e);

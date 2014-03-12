@@ -89,15 +89,19 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 IvrUserLogs ivrUserLogs = new IvrUserLogs();
                 ivrUserLogs.setMsisdn(userMobile);
                 ivrUserLogs.setServiceId(serviceId);
+                ivrUserLogs.setOperateId(operateId);
                 ivrUserLogs.setCallNumber(callNumber);
                 ivrUserLogs.setCallTime(sTime);
                 ivrUserLogs.setEndTime(eTime);
                 ivrUserLogs.setCallSecond(callSecond);
                 ivrUserLogs.setCreateTime(new Date());
-                ivrUserLogs.setOperateId(operateId);
+
+                logger.info("USERLOGS:{},{},{},{},{},{},{},{}"
+                        ,userMobile,serviceId,operateId,callNumber,sTime,eTime,callSecond,"") ;
 
                 userLogsService.save(ivrUserLogs);
                 errorNo = Constants.ERROR_NO_OK;
+
             } catch (Exception e) {
                 logger.error("记录日志失败,入库错误:{}", e);
             }
