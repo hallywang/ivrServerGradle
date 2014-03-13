@@ -31,7 +31,7 @@ public class IvrConfigData extends AbstractModel{
     private  String content;
 
     @Column(name="config_type")
-    private  String configType; // 0 单一数据，1 多条轮询， 2 多条随机
+    private  String configType; //
 
     @Column(name="param_a")
     private  String paramA;

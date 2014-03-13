@@ -26,14 +26,16 @@ public class ConfigDataServiceImpl extends BaseService<IvrConfigData, Integer>
     @Resource(name="CommonHibernateDao")
     private ICommonDao CommonHibernateDao;
     @Override
-    public List<IvrConfigData> listValid(String operateId, String serviceId) {
+    public List<IvrConfigData> listValid(String operateId, String serviceId,String type) {
         String hql = "from IvrConfigData where status=1 " +
                 " and serviceId=:serviceId" +
-                " and operateId=:operateId ";
+                " and operateId=:operateId " +
+                " and configType=:configType";
 
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("serviceId", serviceId);
         paramsMap.put("operateId", operateId);
+        paramsMap.put("configType",type);
 
         return CommonHibernateDao.listByHql(hql, paramsMap);
     }

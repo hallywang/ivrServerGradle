@@ -90,7 +90,7 @@ public class ExpertVsppServiceImpl implements IVsppService {
                 logger.error("记录用户行为失败,入库错误: {}", e);
             }
 
-            List list = configDataService.listValid(operateId, serviceId);
+            List list = configDataService.listValid(operateId, serviceId,touchButton);
             StringBuilder respBody = new StringBuilder();
             if (list.size() <= 0) {
                 respBody.append(RESP_STATUS_ERROR);

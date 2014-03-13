@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface IConfigDataService  extends IBaseService<IvrConfigData, Integer> {
 
-    public List<IvrConfigData> listValid(String operateId,String serviceId);
+    public List<IvrConfigData> listValid(String operateId,String serviceId,String type);
 
 
 }
