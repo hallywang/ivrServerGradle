@@ -51,7 +51,8 @@ public class UserLogsVsppServiceImpl implements IVsppService {
         String split = (String) MyConfigurer.getContextProperty("split");
         String errorNo = Constants.ERROR_NO_ERROR;
         PacketHeadVO packetHeadVO = packetInfoVO.getPaHeadVO();
-        String serviceId = packetHeadVO.getServerID();
+        String serviceId = "";  //packetHeadVO.getServerID(); // 当拨打长号码的时候，header传递有误
+
         String operateId = packetHeadVO.getOperateID();
 
         while (true) {
@@ -67,6 +68,10 @@ public class UserLogsVsppServiceImpl implements IVsppService {
             }
             String userMobile = fileds[0];
             String callNumber = fileds[1];
+
+            //packetHeadVO.getServerID()当拨打长号码的时候，header传递有误
+            //1259054311,125905431,1259054312,取4到9位 也就是125905431 作为serviceId
+            serviceId=callNumber.substring(4,9);
             String startTime = fileds[2];
             String endTime = fileds[3];
             Date sTime;

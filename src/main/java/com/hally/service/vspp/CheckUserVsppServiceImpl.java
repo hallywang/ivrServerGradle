@@ -5,6 +5,7 @@ import com.hally.cache.EhcacheService;
 import com.hally.cache.ObjectEhCache;
 import com.hally.common.Constants;
 import com.hally.pojo.IvrBlackUser;
+import com.hally.service.IBlackUserService;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
 import org.apache.commons.lang.StringUtils;
@@ -23,8 +24,9 @@ import javax.annotation.Resource;
 @Service("checkUserVsppService")
 public class CheckUserVsppServiceImpl implements IVsppService {
     private static Logger logger = LoggerFactory.getLogger(CheckUserVsppServiceImpl.class);
+
     @Resource
-    private EhcacheService ehcacheService;
+    private IBlackUserService blackUserService;
     @Override
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
         PacketHeadVO paHeadVO = packetInfoVO.getPaHeadVO();
@@ -38,7 +40,7 @@ public class CheckUserVsppServiceImpl implements IVsppService {
     private String responseBody(String body, PacketHeadVO paHeadVO) {
         String split = (String) MyConfigurer.getContextProperty("split");
         String spId = (String) MyConfigurer.getContextProperty("spId");
-        String serviceId = paHeadVO.getServerID(); //serviceid
+        String serviceId = paHeadVO.getServerID(); //packetHeadVO.getServerID(); // 当拨打长号码的时候，header传递有误
 
         String[] fileds = StringUtils.split(body, split);
         StringBuilder responseBody = new StringBuilder();
@@ -77,22 +79,16 @@ public class CheckUserVsppServiceImpl implements IVsppService {
         String smsTemplateId = "";  //挂机短信-模板号
         String smsContentId = ""; //挂机短信-内容ID
 
-        ObjectEhCache cache = ehcacheService.getCache(Constants.CACHE_NAME_BLACK_USER);
-        String cacheKey = userMobile + "-" + serviceId;  //黑名单号码-业务代码作为key，全局为0
-        IvrBlackUser blackUser = (IvrBlackUser) cache.get(cacheKey);
-        if (blackUser != null) {
-            logger.info("黑名单用户:{}, serviceId:{}", userMobile, serviceId);
+        //packetHeadVO.getServerID()当拨打长号码的时候，header传递有误
+        //1259054311,125905431,1259054312,取4到9位 也就是125905431 作为serviceId
+        serviceId=callNumber.substring(4,9);
+
+        if(blackUserService.isBlackUser(userMobile,serviceId)){  //是黑名单
             flag = "9"; //限制接入
             blockTip = spId + MyConfigurer.getContextProperty("blockTip");  //todo 文件名规则
-        } else {
-            cacheKey = userMobile + "-0"; //全局黑名单
-            blackUser = (IvrBlackUser) cache.get(cacheKey);
-            if (blackUser != null) {
-                logger.info("全局黑名单用户:{}, serviceId:{}", userMobile, serviceId);
-                flag = "9"; //限制接入
-                blockTip = spId + MyConfigurer.getContextProperty("blockTip");  //todo 文件名规则
-            }
         }
+
+
         responseBody.append(flag).append(split);      //字段1
         responseBody.append(blockTip).append(split);   //字段2
         responseBody.append(limitSecond).append(split); //字段3

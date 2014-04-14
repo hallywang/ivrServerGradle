@@ -45,8 +45,19 @@
 
     <cache name="blackUser"
            maxEntriesLocalHeap="10000"
-           maxEntriesLocalDisk="100000"
            eternal="true"
+           diskSpoolBufferSizeMB="200"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap"/>
+    </cache>
+
+    <cache name="channelNoticeUrl"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="100000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="300"
            diskSpoolBufferSizeMB="200"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">

@@ -68,6 +68,8 @@ public class VsppServer {
                 logger.info("==in==seqNo:{},serviceId:{},operateid:{},header is:{},errorNo is:{},body is:{}",
                         seqNo, serviceId, operateId, pHeader, errorNo, pBody);
 
+                //todo  ip 验证
+
                 //根据操作ID获取接口处理的实现类
                 IVsppService vsppService = (IVsppService) vsppServiceFactory.get(operateId);
 

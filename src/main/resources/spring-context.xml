@@ -99,6 +99,36 @@
     </aop:config>
 
 
+    <aop:config>
+        <aop:aspect id="channelNoticeAfterLog" ref="channelNoticeAfterLog">
+            <!--配置方法-->
+            <aop:pointcut id="channelPointCut"
+            expression="execution(* com.hally.service.*.save(..) ) and args(userLogs)" />
+
+            <aop:after-returning pointcut-ref="channelPointCut" method="doAfter"/>
+
+        </aop:aspect>
+    </aop:config>
+   <!-- <bean id="connectionManagerParams" class="org.apache.commons.httpclient.params.HttpConnectionManagerParams">
+        <property name="connectionTimeout" value="10000"/>
+        <property name="soTimeout" value="10000"/>
+        <property name="maxTotalConnections" value="30"/>
+        <property name="defaultMaxConnectionsPerHost" value="20"/>
+    </bean>
+
+    <bean id="connectionManager" class="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager">
+        <property name="params" ref="connectionManagerParams"/>
+    </bean>
+
+    <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient">
+        <constructor-arg ref="connectionManager"/>
+    </bean>
+
+    <bean id="httpClientUtil" class="com.common.http.HttpUtil">
+        <property name="httpClient" ref="httpClient"/>
+    </bean>
+
+-->
     <!-- <bean id="txManager"
            class="org.springframework.orm.hibernate4.HibernateTransactionManager">
          <property name="sessionFactory" ref="sessionFactory"/>
@@ -162,14 +192,14 @@
 
 
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
-    <bean id="startQuertz" lazy-init="false" autowire="no"
+    <!--<bean id="startQuertz" lazy-init="false" autowire="no"
           class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="doTime"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
 
 </beans>

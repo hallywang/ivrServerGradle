@@ -29,6 +29,9 @@ public class TestClient0001 {
         int result = 0;
         String nIP = "127.0.0.1";
         int nPort = 8080;
+
+        nIP = "115.29.147.204";
+        nPort = 9090;
         while (true) {
 
             String spID = "1";
