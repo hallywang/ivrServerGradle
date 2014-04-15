@@ -39,6 +39,7 @@ public class ChannelNoticeServiceImpl implements IChannelNoticeService {
                 " and channelCode=:channelCode ";
 
         if (callNumber == null || callNumber.length() <= 9) {
+            logger.error("callNumber:{} is ERROR,",callNumber);
             return "";
         }
         String channelCode = callNumber.substring(9, callNumber.length()); //125905431 001渠道号就是001，
