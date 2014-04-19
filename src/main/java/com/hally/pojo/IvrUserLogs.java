@@ -43,6 +43,12 @@ public class IvrUserLogs implements Serializable {
     @Column(name = "create_time")
     private Date createTime;
 
+    @Column(name = "province_name")
+    String provinceName; //省份
+
+    @Column(name = "city_name")
+    String cityName ; //城市
+
     public Long getId() {
         return id;
     }
@@ -121,5 +127,21 @@ public class IvrUserLogs implements Serializable {
 
     public void setTouchButton(String touchButton) {
         this.touchButton = touchButton;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 }

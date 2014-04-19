@@ -5,6 +5,7 @@ public class Constants {
 
     public static final String CACHE_NAME_BLACK_USER = "blackUser";
     public static final String CACHE_NAME_CHANNEL_NOTICE_URL = "channelNoticeUrl";
+    public static final String CACHE_NAME_MOBILE_AREA="mobileArea";
 
 
     public static final String ERROR_NO_OK = "00000";

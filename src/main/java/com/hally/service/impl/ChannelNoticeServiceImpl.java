@@ -24,7 +24,7 @@ import java.util.Map;
 @Service("channelNoticeService")
 public class ChannelNoticeServiceImpl implements IChannelNoticeService {
 
-    Logger logger = LoggerFactory.getLogger(ConfigDataServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(ChannelNoticeServiceImpl.class);
     @Resource(name = "CommonHibernateDao")
     private ICommonDao CommonHibernateDao;
 

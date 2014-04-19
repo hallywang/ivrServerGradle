@@ -5,6 +5,7 @@ import com.common.util.TimeUtil;
 import com.hally.common.Constants;
 import com.hally.pojo.IvrUserLogs;
 import com.hally.service.IUserLogsService;
+import com.hally.service.MobileService;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,10 @@ public class UserLogsVsppServiceImpl implements IVsppService {
     private static Logger logger = LoggerFactory.getLogger(UserLogsVsppServiceImpl.class);
     @Resource
     private IUserLogsService userLogsService;
+
+    @Resource
+    private MobileService mobileService;
+
     @Override
     public PacketInfoVO response(PacketInfoVO packetInfoVO) {
          /*errorno = 00000，成功,errorno = 00002，失败*/
@@ -69,6 +74,9 @@ public class UserLogsVsppServiceImpl implements IVsppService {
             String userMobile = fileds[0];
             String callNumber = fileds[1];
 
+            String provName = mobileService.getProvName(userMobile) ;
+            String cityName = mobileService.getCityName(userMobile);
+
             //packetHeadVO.getServerID()当拨打长号码的时候，header传递有误
             //1259054311,125905431,1259054312,取4到9位 也就是125905431 作为serviceId
             serviceId=callNumber.substring(4,9);
@@ -100,9 +108,12 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setEndTime(eTime);
                 ivrUserLogs.setCallSecond(callSecond);
                 ivrUserLogs.setCreateTime(new Date());
+                ivrUserLogs.setProvinceName(provName);
+                ivrUserLogs.setCityName(cityName);
 
-                logger.info("USERLOGS:{},{},{},{},{},{},{},{}"
-                        ,userMobile,serviceId,operateId,callNumber,sTime,eTime,callSecond,"") ;
+
+                logger.info("USERLOGS:{},{},{},{},{},{},{},{},{}"
+                        ,userMobile,serviceId,operateId,callNumber,sTime,eTime,callSecond,provName,cityName) ;
 
                 userLogsService.save(ivrUserLogs);
                 errorNo = Constants.ERROR_NO_OK;

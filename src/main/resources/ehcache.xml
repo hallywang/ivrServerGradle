@@ -52,6 +52,15 @@
         <persistence strategy="localTempSwap"/>
     </cache>
 
+    <cache name="mobileArea"
+           maxEntriesLocalHeap="300000"
+           eternal="true"
+           diskSpoolBufferSizeMB="200"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap"/>
+    </cache>
+
     <cache name="channelNoticeUrl"
            maxEntriesLocalHeap="10000"
            maxEntriesLocalDisk="100000"
