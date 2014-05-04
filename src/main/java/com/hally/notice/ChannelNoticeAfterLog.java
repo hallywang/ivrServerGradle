@@ -44,29 +44,28 @@ public class ChannelNoticeAfterLog {
 
         if (url != null && !"".equals(url)) {
 
-            Map<String, String> params = new LinkedHashMap<String, String>();
+            if ("0601".equals(userLogs.getOperateId())) { // 挂机才通知
 
-            //todo params
-
-            params.put("phone",userLogs.getMsisdn());
-            params.put("port",userLogs.getCallNumber());
-            params.put("link_id",System.currentTimeMillis()+"");
-            params.put("startTime",TimeUtil.getDate(userLogs.getCallTime(),"yyyy-MM-dd HH:mm:ss")) ;
-            params.put("endTime", TimeUtil.getDate(userLogs.getEndTime(),"yyyy-MM-dd HH:mm:ss"));
-            params.put("feetime",userLogs.getCallSecond().toString()) ;
-
-            double fee = ((double)userLogs.getCallSecond())/60;  //默认一分钟一元钱
-
-            params.put("fee",String.valueOf(Math.ceil(fee)));
+                Map<String, String> params = new LinkedHashMap<String, String>();
 
 
-            NoticeThread noticeThread = new NoticeThread(jp, url,params);
-            executor.submit(noticeThread);
+                params.put("phone", userLogs.getMsisdn());
+                params.put("port", userLogs.getCallNumber());
+                params.put("link_id", System.currentTimeMillis() + "");
+                params.put("startTime", TimeUtil.getDate(userLogs.getCallTime(), "yyyy-MM-dd HH:mm:ss"));
+                params.put("endTime", TimeUtil.getDate(userLogs.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+                params.put("feetime", userLogs.getCallSecond().toString());
+                params.put("fee", String.valueOf(userLogs.getFee()));
+                NoticeThread noticeThread = new NoticeThread(jp, url, params);
+                executor.submit(noticeThread);
 
-            logger.info("callNumber:{},url:{},params:{}",callNumber,url,params);
+                logger.info("operateId:{},callNumber:{},url:{},params:{}", userLogs.getOperateId(),callNumber, url, params);
+            } else {
+                logger.info("operateId:{},callNumber:{},operateId is not 0601,do not notice", userLogs.getOperateId(),callNumber);
+            }
 
-        }else{
-            logger.info("callNumber:{} this channel has not config notice URL",callNumber);
+        } else {
+            logger.info("callNumber:{} this channel has not config notice URL", callNumber);
         }
 
     }

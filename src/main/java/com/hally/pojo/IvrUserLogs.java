@@ -40,6 +40,9 @@ public class IvrUserLogs implements Serializable {
     @Column(name = "call_second")
     private Long callSecond;//持续了多少秒
 
+    @Column(name = "fee")
+    private Long fee;// 金额
+
     @Column(name = "create_time")
     private Date createTime;
 
@@ -143,5 +146,13 @@ public class IvrUserLogs implements Serializable {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public Long getFee() {
+        return fee;
+    }
+
+    public void setFee(Long fee) {
+        this.fee = fee;
     }
 }

@@ -80,6 +80,7 @@ public class ExpertVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setCallTime(sTime);
                 ivrUserLogs.setEndTime(new Date());
                 ivrUserLogs.setCallSecond(callSecond);
+                ivrUserLogs.setFee(0L);
                 ivrUserLogs.setCreateTime(new Date());
                 ivrUserLogs.setOperateId(operateId);
                 ivrUserLogs.setTouchButton(touchButton);

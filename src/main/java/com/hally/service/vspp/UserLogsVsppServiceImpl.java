@@ -74,12 +74,12 @@ public class UserLogsVsppServiceImpl implements IVsppService {
             String userMobile = fileds[0];
             String callNumber = fileds[1];
 
-            String provName = mobileService.getProvName(userMobile) ;
+            String provName = mobileService.getProvName(userMobile);
             String cityName = mobileService.getCityName(userMobile);
 
             //packetHeadVO.getServerID()当拨打长号码的时候，header传递有误
             //1259054311,125905431,1259054312,取4到9位 也就是125905431 作为serviceId
-            serviceId=callNumber.substring(4,9);
+            serviceId = callNumber.substring(4, 9);
             String startTime = fileds[2];
             String endTime = fileds[3];
             Date sTime;
@@ -106,14 +106,19 @@ public class UserLogsVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setCallNumber(callNumber);
                 ivrUserLogs.setCallTime(sTime);
                 ivrUserLogs.setEndTime(eTime);
+
+                double fee = ((double) callSecond) / 60;  //默认一分钟一元钱
+                long fee2 = (long) Math.ceil(fee); //超过一秒也算一分钟，向上取整
+                ivrUserLogs.setFee(fee2);
+
                 ivrUserLogs.setCallSecond(callSecond);
                 ivrUserLogs.setCreateTime(new Date());
                 ivrUserLogs.setProvinceName(provName);
                 ivrUserLogs.setCityName(cityName);
 
 
-                logger.info("USERLOGS:{},{},{},{},{},{},{},{},{}"
-                        ,userMobile,serviceId,operateId,callNumber,sTime,eTime,callSecond,provName,cityName) ;
+                logger.info("USERLOGS:{},{},{},{},{},{},{},{},{},{}"
+                        , userMobile, serviceId, operateId, callNumber, sTime, eTime, callSecond, fee2, provName, cityName);
 
                 userLogsService.save(ivrUserLogs);
                 errorNo = Constants.ERROR_NO_OK;
