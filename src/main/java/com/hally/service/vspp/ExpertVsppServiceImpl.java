@@ -8,6 +8,7 @@ import com.hally.pojo.IvrConfigData;
 import com.hally.pojo.IvrUserLogs;
 import com.hally.service.IConfigDataService;
 import com.hally.service.IUserLogsService;
+import com.hally.service.MobileService;
 import com.hisunsray.vspp.data.PacketHeadVO;
 import com.hisunsray.vspp.data.PacketInfoVO;
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +36,10 @@ public class ExpertVsppServiceImpl implements IVsppService {
     private IConfigDataService configDataService;
     @Resource
     private IUserLogsService userLogsService;
+
+    @Resource
+    private MobileService mobileService;
+
     private static String RESP_STATUS_OK = "0";
     private static String RESP_STATUS_ERROR = "1";
     @Override
@@ -64,6 +69,9 @@ public class ExpertVsppServiceImpl implements IVsppService {
             String startTime = fileds[2];
             String touchButton = fileds[3];
 
+            String provName = mobileService.getProvName(userMobile);
+            String cityName = mobileService.getCityName(userMobile);
+
             Date sTime;
             long callSecond = -1;
             try {
@@ -84,6 +92,10 @@ public class ExpertVsppServiceImpl implements IVsppService {
                 ivrUserLogs.setCreateTime(new Date());
                 ivrUserLogs.setOperateId(operateId);
                 ivrUserLogs.setTouchButton(touchButton);
+
+                ivrUserLogs.setProvinceName(provName);
+                ivrUserLogs.setCityName(cityName);
+
                 logger.info("USERLOGS:{},{},{},{},{},{},{},{}"
                         ,userMobile,serviceId,operateId,callNumber,sTime,"",callSecond,touchButton) ;
                 userLogsService.save(ivrUserLogs);
