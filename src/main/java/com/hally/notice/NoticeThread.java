@@ -1,15 +1,11 @@
 package com.hally.notice;
 
 import com.common.http.HttpUtil;
-import com.hally.service.IChannelNoticeService;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -25,24 +21,37 @@ public class NoticeThread extends Thread {
     private String url;
     private Map<String, String> params;
     private HttpUtil httpUtil = new HttpUtil();
+    private String httpMethod;
 
-    public NoticeThread(JoinPoint jp, String url, Map<String, String> params) {
+    public NoticeThread(JoinPoint jp, String url, Map<String, String> params, String httpMethod) {
         this.joinPoint = jp;
         this.url = url;
         this.params = params;
+        this.httpMethod = httpMethod;
     }
 
     public void run() {
 
-        httpUtil.setConnectionTimeout(1000);
-        httpUtil.setReadTimeout(10000);
+        httpUtil.setConnectionTimeout(30000);
+        httpUtil.setReadTimeout(30000);
 
         try {
-            httpUtil.sendGet(url, params, null);
+
+            if (httpMethod == null) httpMethod = "get";
+
+            String resp = "";
+
+            if (httpMethod.equalsIgnoreCase("get")) {
+                resp=  httpUtil.sendGet(url, params, null);
+            } else {
+                resp=  httpUtil.sendPost(url, params, null);
+            }
+            logger.info("resp:{},url:{},params:{}",resp,url,params);
+
         } catch (IOException e1) {
-            logger.error("error IOException : {}", e1.getMessage());
+            logger.error("error IOException : {},url:{},params:{}", e1.getMessage(),url,params);
         } catch (Exception e) {
-            logger.error("error exption : {}", e.getMessage());
+            logger.error("error exption : {},url:{},params:{}", e.getMessage(),url,params);
         }
 
     }

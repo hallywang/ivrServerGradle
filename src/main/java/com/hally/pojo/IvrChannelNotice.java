@@ -1,6 +1,7 @@
 package com.hally.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "t_ivr_channel_notice")
-public class IvrChannelNotice {
+public class IvrChannelNotice implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +26,13 @@ public class IvrChannelNotice {
 
     @Column(name="notice_url")
     private String noticeUrl;
+
+    @Column(name="time_format")
+    private String timeFormat;
+
+    @Column(name="http_method")
+    private String httpMethod;
+
     private Integer status = 1; // 0 失效,1 有效
 
     @Column(name = "create_time")
@@ -87,5 +95,21 @@ public class IvrChannelNotice {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getTimeFormat() {
+        return timeFormat;
+    }
+
+    public void setTimeFormat(String timeFormat) {
+        this.timeFormat = timeFormat;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
     }
 }

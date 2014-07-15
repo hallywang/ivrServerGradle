@@ -19,5 +19,7 @@ import java.util.List;
 public interface IChannelNoticeService {
 
     public String getNoticeUrl(String serviceId,String callNumber);
+    public IvrChannelNotice getNoticeInfo(String serviceId,String callNumber);
+
 
 }

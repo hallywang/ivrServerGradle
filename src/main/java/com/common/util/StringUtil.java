@@ -202,20 +202,46 @@ public class StringUtil {
 
 
     public static void main(String[] args) {
-        // System.out.println(StringUtil.getFilePreName("daf.ads.jpg"));
-        //  System.out.println(StringUtil.getFileExtName("daf.ads.jpg"));
-        /*  System.out.println(StringUtil.encodeWml("<><><><>''''''\"\""));
 
-       String ha="Mozilla/5.0 (Linux; U; Android 2.2.1; zh-cn; Milestone XT720 Build/MIUI) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1";
-      boolean  b = Pattern.compile(".*android.*|.*juc.*|.*ophone.*".toLowerCase()).matcher(StringUtil.getString(ha).toLowerCase()).matches();
+       String url="http://tone.mobase.cn/ivr/falaili?" +
+                "phone={msisdn}&port={callNumber}&link_id={linkId}" +
+                "&startTime={startTime}&endTime={endTime}&feetime={feetime}&fee={fee}";
 
-        System.out.println(b);*/
+        url="http://114.251.190.210/PostWeb/Getfll.aspx?caller={msisdn}&called={callNumber}&begintime={startTime}&endtime={endTime}" ;
 
-        System.out.println(StringUtils.isAlphanumeric("abc123"));
-        System.out.println(StringUtils.isAlphanumeric("12345"));
-        System.out.println(StringUtils.isAlphanumeric("eeeee"));
-        System.out.println(StringUtils.isAlphanumeric("abc123}"));
+       // http://xxxxxxxxxx.aspx?caller=13900000000&called=12590xxxx&begintime=20140313135300&endtime=20140313135400
 
+
+
+        String timeFormat="yyyy-MM-dd HH:mm:ss";
+
+        timeFormat="yyyyMMddHHmmss";
+
+        url= StringUtils.replace(url,"{msisdn}","13675180163");
+        url= StringUtils.replace(url,"{callNumber}","12590000");
+        url= StringUtils.replace(url,"{startTime}",TimeUtil.getDate(new Date(), timeFormat));
+        url= StringUtils.replace(url,"{endTime}",TimeUtil.getDate(new Date(), timeFormat));
+        url= StringUtils.replace(url,"{feetime}","112");
+        url= StringUtils.replace(url,"{fee}",String.valueOf(12));
+        url= StringUtils.replace(url,"{linkId}",System.currentTimeMillis() + "");
+
+
+       Map params= StringUtil.paramsToMap(url);
+
+               /* params.put("phone", userLogs.getMsisdn());
+                params.put("port", userLogs.getCallNumber());
+                params.put("link_id", System.currentTimeMillis() + "");
+                params.put("startTime", TimeUtil.getDate(userLogs.getCallTime(), "yyyy-MM-dd HH:mm:ss"));
+                params.put("endTime", TimeUtil.getDate(userLogs.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+                params.put("feetime", userLogs.getCallSecond().toString());
+                params.put("fee", String.valueOf(userLogs.getFee()));
+*/
+        String urlNoparams = url.substring(0,url.indexOf("?"));//todo
+
+
+        System.out.println(params);
+
+        System.out.println(urlNoparams);
 
     }
 
@@ -276,5 +302,44 @@ public class StringUtil {
         return StringUtils.isNumeric(str);
     }
 
+    /**
+     *
+     * @param url
+     * @return
+     */
+    public static Map<String, String> paramsToMap(String url) {
+        LinkedHashMap<String, String>  paramsMap = new LinkedHashMap<String, String>();
 
+        if (url==null||"".equals(url)) {
+            return paramsMap;
+        }
+
+        String tmpUri = url;
+
+        //获取最原始的uri地址，该地址不带任何参数
+        String paramStr = "";
+        if (tmpUri.indexOf("?") > 0) {
+            //uri地址存在参数
+            paramStr = tmpUri.substring(tmpUri.indexOf("?") + 1);
+        }
+
+        //获取uri地址后面直接跟的参数，并将参数信息记录在 finalMap 中
+        if (!StringUtil.isEmpty(paramStr)) {
+            paramStr = paramStr.replaceAll("&amp;", "&");
+            String[] paramArray = paramStr.trim().split("&");
+
+            for (String it : paramArray) {
+                if (it.indexOf("=") > 0) {
+                    if (it.split("=").length == 2) {
+                        paramsMap.put(it.split("=")[0], it.split("=")[1]);
+                    } else {
+                        paramsMap.put(it.split("=")[0], "");
+                    }
+                }
+            }
+        }
+
+        return paramsMap;
+
+    }
 }

@@ -34,26 +34,35 @@ public class ChannelNoticeServiceImpl implements IChannelNoticeService {
     @Override
     public String getNoticeUrl(String serviceId, String callNumber) {
 
+        IvrChannelNotice channelNotice = this.getNoticeInfo(serviceId, callNumber);
+
+        if (channelNotice != null) return channelNotice.getNoticeUrl();
+        return "";
+
+    }
+
+    @Override
+    public IvrChannelNotice getNoticeInfo(String serviceId, String callNumber) {
         String hql = "from IvrChannelNotice where status=1 " +
                 " and serviceId=:serviceId" +
                 " and channelCode=:channelCode ";
 
         if (callNumber == null || callNumber.length() <= 9) {
-            logger.error("callNumber:{} is ERROR,",callNumber);
-            return "";
+            logger.error("callNumber:{} is ERROR,", callNumber);
+            return null;
         }
         String channelCode = callNumber.substring(9, callNumber.length()); //125905431 001渠道号就是001，
 
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("serviceId", serviceId);
         paramsMap.put("channelCode", channelCode);
-        IObjectCache cache = cacheService.getCache(Constants.CACHE_NAME_CHANNEL_NOTICE_URL);
+        IObjectCache cache = cacheService.getCache(Constants.CACHE_NAME_CHANNEL_NOTICE_INFO);
 
         String cacheKey = serviceId + "-" + channelCode;
-        String url = (String) cache.get(cacheKey);
+        IvrChannelNotice channelNotice = (IvrChannelNotice) cache.get(cacheKey);
 
-        if (url != null && !"".equals(url)) {
-            return url;
+        if (channelNotice != null) {
+            return channelNotice;
         }
 
         logger.info("cache is null, load {},{}, url from db", cacheKey, callNumber);
@@ -62,11 +71,11 @@ public class ChannelNoticeServiceImpl implements IChannelNoticeService {
 
         if (list != null && list.size() > 0) {
             IvrChannelNotice ivrChannelNotice = (IvrChannelNotice) list.get(0);
-            url = ivrChannelNotice.getNoticeUrl();
-            cache.put(cacheKey, url);
+            cache.put(cacheKey, ivrChannelNotice);
+            channelNotice = ivrChannelNotice;
         }
 
 
-        return url;
+        return channelNotice;
     }
 }
